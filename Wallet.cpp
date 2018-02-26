@@ -1,10 +1,3 @@
-/*
- * Wallet.cpp
- *
- *  Created on: Feb 25, 2018
- *      Author: root
- */
-
 #include "Wallet.h"
 
 Wallet::Wallet(int n) {

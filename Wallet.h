@@ -1,10 +1,3 @@
-/*
- * Wallet.h
- *
- *  Created on: Feb 25, 2018
- *      Author: root
- */
-
 #ifndef WALLET_H_
 #define WALLET_H_
 

@@ -1,15 +1,13 @@
-/*
- * Player.cpp
- *
- *  Created on: Feb 25, 2018
- *      Author: root
- */
-
 #include "Player.h"
+using namespace std;
 
-Player::Player(std::string name) {
+Player::Player(string name) {
 	this->name = name;
 	wallet = new Wallet(0);
+	wallet->receive(7);
+}
+
+void Player::build(Building *building) {
 }
 
 Player::~Player() {
@@ -17,5 +15,5 @@ Player::~Player() {
 }
 
 void Player::print() const {
-	std::cout << "Player[" << name << "](gold=" << wallet->get_gold() << ")" <<  std::endl;
+	cout << "Player[" << name << "](gold=" << wallet->get_gold() << ")" <<  endl;
 }
