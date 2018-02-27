@@ -5,8 +5,7 @@
 
 class ManufacturedGood: public Ressource {
 public:
-	ManufacturedGood();
-	virtual ~ManufacturedGood();
+	ManufacturedGood(Cost c, RessourceType r, int i): Ressource(c, r, i) { };
 };
 
-#endif /* MANUFACTUREDGOOD_H_ */
+#endif

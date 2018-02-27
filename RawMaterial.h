@@ -4,14 +4,11 @@
 #include "Ressource.h"
 
 class RawMaterial: public Ressource {
-	RessourceType ressource_type;
-	int quantity;
 public:
-	RawMaterial(RessourceType, int);
-	virtual ~RawMaterial();
-
-	RessourceType get_ressource_type();
-	int get_quantity();
+    RawMaterial(Cost c, RessourceType r, int i): Ressource(c, r, i) { };
+    RawMaterial(Cost c, RessourceType r): Ressource(c, r) { };
+    RawMaterial(RessourceType r, int i): Ressource(r, i) { };
+    RawMaterial(RessourceType r): Ressource(r) { };
 };
 
 #endif /* RAWMATERIAL_H_ */

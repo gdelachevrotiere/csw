@@ -9,4 +9,4 @@ public:
 	virtual ~ScientificBuilding();
 };
 
-#endif /* SCIENTIFICBUILDING_H_ */
+#endif

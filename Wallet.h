@@ -4,13 +4,14 @@
 class Wallet {
 	int gold;
 public:
-	Wallet(int);
+	Wallet();
+	Wallet(int n);
 	virtual ~Wallet();
 
-	int get_gold();
+	int get_gold() const;
 	void receive(int);
 	bool can_spend(int);
 	void spend(int);
 };
 
-#endif /* WALLET_H_ */
+#endif

@@ -1,10 +1,14 @@
 #include "Wallet.h"
 
+Wallet::Wallet() {
+	gold = 0;
+}
+
 Wallet::Wallet(int n) {
 	gold = n;
 }
 
-int Wallet::get_gold() {
+int Wallet::get_gold() const {
 	return gold;
 }
 

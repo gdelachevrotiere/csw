@@ -1,11 +1,14 @@
 #include "Impact.h"
 
-Impact::Impact() {
-	// TODO Auto-generated constructor stub
+Impact::Impact(ImpactType impact_type) {
+    this->impact_type = impact_type;
+}
 
+void Impact::apply(Player* player) {
+    // TBD
 }
 
 Impact::~Impact() {
-	// TODO Auto-generated destructor stub
+    delete &impact_type;
 }
 

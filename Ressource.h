@@ -3,12 +3,17 @@
 
 #include "Building.h"
 
-enum RessourceType { wood, stone, clay, glass, paper };
-
 class Ressource: public Building {
+    RessourceMap production;
 public:
-	Ressource();
-	virtual ~Ressource();
+    Ressource();
+    Ressource(Cost, RessourceType, int);
+    Ressource(Cost c, RessourceType r): Ressource(c, r, 1) {};
+    Ressource(RessourceType r, int i): Ressource(Cost(), r, i) {};
+    Ressource(RessourceType r): Ressource(r, 1) {};
+    virtual ~Ressource();
+
+    int get_production(RessourceType);
 };
 
-#endif /* RESSOURCE_H_ */
+#endif
