@@ -1,26 +1,33 @@
 #include "Player.h"
-#include "Wonder.h"
-
-using namespace std;
 
 Player::Player(const string name) {
 	this->name = name;
-	wallet = Wallet(0);
-	wallet.receive(7);
+    wallet = make_unique<Wallet>(*new Wallet(7));
 }
 
-int Player::get_production(const RessourceType ressource_type) {
+int Player::get_production(const RessourceType ressource_type){
 	int quantity = 0;
-	for (auto b: buildings) {
+	for (auto const& b: buildings) {
 		quantity += b->get_production(ressource_type);
 	}
 	return quantity;
 }
 
-Player::~Player() {
-	delete &name;
+void build(shared_ptr<Building> building) {
+	map<RessourceType,bool> sufficient;
+	for (int i=0;i++;i<6) {
+		sufficient.insert(make_pair(RessourceType(i),building->get_cost().get_ressource(RessourceType(i))>0));
+	}
 }
 
-void Player::print() const {
-	cout << "Player[" << name << "](gold=" << wallet.get_gold() << ")" <<  endl;
+
+void Player::print() {
+	cout << "Player[" << name << "](" << endl;
+    cout << "----gold=" << wallet->get_gold() << endl;
+    cout << "----wood=" << get_production(Wood) << endl;
+    cout << "----clay=" << get_production(Clay) << endl;
+    cout << "----stone=" << get_production(Stone) << endl;
+    cout << ")" << endl;
 }
+
+Player::~Player() {}

@@ -10,16 +10,16 @@
 
 class Player {
 	string name;
-	Wallet wallet;
-	vector<Building*> buildings;
-	vector<Artifact*> progress_tokens;
+	unique_ptr<Wallet> wallet;
+	vector<shared_ptr<Building>> buildings;
+	vector<shared_ptr<Artifact>> progressTokens;
 public:
 	Player(string s);
 	virtual ~Player();
 
-	void print() const;
+	void print();
 	int get_production(RessourceType);
-	void build(Building *building);
+	void build(shared_ptr<Building> building);
 };
 
 #endif

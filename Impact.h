@@ -6,7 +6,7 @@
 enum ImpactType { GrantGold };
 
 class Impact {
-	ImpactType impact_type;
+	ImpactType impactType;
 public:
 	Impact(ImpactType);
 	virtual ~Impact();

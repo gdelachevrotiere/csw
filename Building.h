@@ -7,7 +7,8 @@
 class Building {
 protected:
 	Cost cost;
-	int victory_points;
+	int victoryPoints;
+    bool available;
 public:
     Building();
     virtual ~Building();

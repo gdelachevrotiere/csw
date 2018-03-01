@@ -11,6 +11,4 @@ int Ressource::get_production(RessourceType ressource_type) {
     return (production.end()!=production.find(ressource_type)) ? production[ressource_type] : 0;
 }
 
-Ressource::~Ressource() {
-    delete &production;
-}
+Ressource::~Ressource() {}

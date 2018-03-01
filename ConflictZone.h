@@ -2,8 +2,8 @@
 #define CONFLICTZONE_H_
 
 class ConflictZone {
-	int half_size;
-    int pawn_position;
+	int halfSize;
+    int pawnPosition;
 public:
 	ConflictZone(int);
     ConflictZone(): ConflictZone(0) {};

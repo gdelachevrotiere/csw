@@ -4,15 +4,16 @@
 #include "Player.h"
 #include "ConflictZone.h"
 #include "Wonder.h"
+#include "City.h"
 
 class Game {
-	Player *a, *b;
-	ConflictZone conflict_zone;
-	vector<Wonder> wonders;
-    vector<Building> buildings;
+	shared_ptr<Player> playerA, playerB;
+    unique_ptr<ConflictZone> conflictZone;
+	vector<shared_ptr<Wonder>> wonders;
+	unique_ptr<City> city;
 public:
-	Game(Player *, Player *);
+	Game(shared_ptr<Player>, shared_ptr<Player>, vector<shared_ptr<Wonder>>, vector<shared_ptr<Building>>);
 	virtual ~Game();
 };
 
-#endif /* GAME_H_ */
+#endif

@@ -1,28 +1,26 @@
 #include "ConflictZone.h"
 
-ConflictZone::ConflictZone(int half_size) {
-    this->half_size;
-	pawn_position = 0;
+ConflictZone::ConflictZone(int halfSize) {
+    this->halfSize;
+	pawnPosition = 0;
 }
 
 int ConflictZone::move_pawn(int steps) {
     int victory = 0;
-    pawn_position += steps;
-    if (pawn_position >= half_size) {
-        pawn_position = half_size;
+    pawnPosition += steps;
+    if (pawnPosition >= halfSize) {
+        pawnPosition = halfSize;
         victory = 1;
-    } else if (pawn_position <= half_size) {
-        pawn_position = half_size;
+    } else if (pawnPosition <= halfSize) {
+        pawnPosition = halfSize;
         victory = -1;
     }
     return victory;
 }
 
 int ConflictZone::get_pawn_position() {
-    return pawn_position;
+    return pawnPosition;
 }
 
-ConflictZone::~ConflictZone() {
-	delete &half_size, &pawn_position;
-}
+ConflictZone::~ConflictZone() {}
 

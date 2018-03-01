@@ -1,10 +1,7 @@
 #include "Wallet.h"
 
-Wallet::Wallet() {
-	gold = 0;
-}
-
 Wallet::Wallet(int n) {
+    cout << "Wallet has been created with : " << n << " gold." << endl;
 	gold = n;
 }
 
@@ -27,7 +24,5 @@ void Wallet::spend(int n) {
 	gold -= n;
 }
 
-Wallet::~Wallet() {
-	delete &gold;
-}
+Wallet::~Wallet() { }
 

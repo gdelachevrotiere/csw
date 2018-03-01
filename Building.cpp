@@ -1,7 +1,8 @@
 #include "Building.h"
 
 Building::Building(){
-    victory_points = 0;
+    victoryPoints = 0;
+    available = false;
 }
 
 Cost Building::get_cost() {
@@ -9,9 +10,7 @@ Cost Building::get_cost() {
 }
 
 int Building::get_victory_points() {
-	return victory_points;
+	return victoryPoints;
 }
 
-Building::~Building(){
-    delete &cost, &victory_points;
-}
+Building::~Building(){ }

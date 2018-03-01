@@ -11,4 +11,4 @@ public:
     RawMaterial(RessourceType r): Ressource(r) { };
 };
 
-#endif /* RAWMATERIAL_H_ */
+#endif

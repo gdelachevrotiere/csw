@@ -1,11 +1,13 @@
 #ifndef WALLET_H_
 #define WALLET_H_
 
+#include "Globals.h"
+
 class Wallet {
 	int gold;
 public:
-	Wallet();
 	Wallet(int n);
+	Wallet(): Wallet(0) {};
 	virtual ~Wallet();
 
 	int get_gold() const;
