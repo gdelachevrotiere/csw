@@ -2,7 +2,7 @@
 
 Player::Player(const string name) {
 	this->name = name;
-    wallet = make_unique<Wallet>(*new Wallet(7));
+    wallet = make_shared<Wallet>(*new Wallet(7));
 }
 
 int Player::get_production(const RessourceType ressource_type){
@@ -11,6 +11,14 @@ int Player::get_production(const RessourceType ressource_type){
 		quantity += b->get_production(ressource_type);
 	}
 	return quantity;
+}
+
+shared_ptr<Wallet> Player::get_wallet() {
+    return wallet;
+}
+
+void Player::attack(int n) {
+
 }
 
 void build(shared_ptr<Building> building) {

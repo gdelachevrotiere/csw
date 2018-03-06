@@ -6,6 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <functional>
 using namespace std;
 
 enum RessourceType { Gold, Wood, Stone, Clay, Glass, Paper };

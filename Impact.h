@@ -3,15 +3,13 @@
 
 #include "Player.h"
 
-enum ImpactType { GrantGold };
-
 class Impact {
-	ImpactType impactType;
+    function<void(shared_ptr<Player>)> lambda;
 public:
-	Impact(ImpactType);
+	explicit Impact(function<void(shared_ptr<Player>)>);
 	virtual ~Impact();
 
-	void apply(Player*);
+	void apply(shared_ptr<Player>);
 };
 
-#endif /* IMPACT_H_ */
+#endif

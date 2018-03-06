@@ -10,7 +10,7 @@
 
 class Player {
 	string name;
-	unique_ptr<Wallet> wallet;
+    shared_ptr<Wallet> wallet;
 	vector<shared_ptr<Building>> buildings;
 	vector<shared_ptr<Artifact>> progressTokens;
 public:
@@ -18,8 +18,10 @@ public:
 	virtual ~Player();
 
 	void print();
+    shared_ptr<Wallet> get_wallet();
 	int get_production(RessourceType);
 	void build(shared_ptr<Building> building);
+    void attack(int n);
 };
 
 #endif

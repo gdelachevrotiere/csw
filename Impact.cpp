@@ -1,11 +1,11 @@
 #include "Impact.h"
 
-Impact::Impact(ImpactType impactType) {
-    this->impactType = impactType;
+Impact::Impact(function<void(shared_ptr<Player>)> lambda) {
+    this->lambda = lambda;
 }
 
-void Impact::apply(Player* player) {
-    // TBD
+void Impact::apply(shared_ptr<Player> player) {
+    lambda(player);
 }
 
 Impact::~Impact() { }
