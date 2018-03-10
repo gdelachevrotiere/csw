@@ -3,16 +3,6 @@
 #include "Wonder.h"
 #include "RawMaterial.h"
 #include "MilitaryBuilding.h"
-#include "test.h"
-using namespace std::placeholders;
-
-function<void(shared_ptr<Player>)> make_grant_gold(int n) {
-    return bind([](shared_ptr<Player> p, int n) { p->get_wallet()->receive(n); }, _1, n);
-}
-
-function<void(shared_ptr<Player>)> make_attack(int n) {
-    return bind([](shared_ptr<Player> p, int n) { p->attack(n); }, _1, n);
-}
 
 function<void(shared_ptr<Player>)> gain_artifact = [](shared_ptr<Player> p) { };
 
@@ -60,9 +50,7 @@ int main() {
 
     */
 
-    player_test();
-    conflict_zone_test();
-    military_win_test();
+    test_all();
 
     return 0;
 }

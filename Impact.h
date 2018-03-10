@@ -4,12 +4,12 @@
 #include "Player.h"
 
 class Impact {
-    function<void(shared_ptr<Player>)> lambda;
+    function<void(Player*)> lambda;
 public:
-	explicit Impact(function<void(shared_ptr<Player>)>);
+	explicit Impact(function<void(Player*)>);
 	virtual ~Impact();
 
-	void apply(shared_ptr<Player>);
+	void resolve(Player*);
 };
 
 #endif

@@ -11,6 +11,9 @@ class Building;
 class Cost;
 class Wonder;
 
+function<void(Player*)> make_grant_gold(int n);
+function<void(Player*)> make_attack(int n);
+
 class Player {
 	string name;
     shared_ptr<Wallet> wallet;

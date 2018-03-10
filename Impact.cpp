@@ -1,10 +1,10 @@
 #include "Impact.h"
 
-Impact::Impact(function<void(shared_ptr<Player>)> lambda) {
+Impact::Impact(function<void(Player*)> lambda) {
     this->lambda = lambda;
 }
 
-void Impact::apply(shared_ptr<Player> player) {
+void Impact::resolve(Player* player) {
     lambda(player);
 }
 

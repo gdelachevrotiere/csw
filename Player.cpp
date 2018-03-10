@@ -2,6 +2,15 @@
 #include "Building.h"
 #include "Buildable.h"
 #include "Wonder.h"
+using namespace std::placeholders;
+
+function<void(Player*)> make_grant_gold(int n) {
+    return bind([](Player* p, int n) { p->get_wallet()->receive(n); }, _1, n);
+}
+
+function<void(Player*)> make_attack(int n) {
+    return bind([](Player* p, int n) { p->attack(n); }, _1, n);
+}
 
 Player::Player(string name, int gold) {
     this->name = name;

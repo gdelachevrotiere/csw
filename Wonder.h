@@ -7,8 +7,9 @@
 
 class Wonder: public Buildable {
 	string name;
+    vector<shared_ptr<Impact>> impacts;
 public:
-	Wonder(string, Cost, vector<Impact>);
+	Wonder(string, Cost, vector<shared_ptr<Impact>>);
 	virtual ~Wonder();
 
     string get_name();
