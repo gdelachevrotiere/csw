@@ -4,13 +4,14 @@ City::City(vector<shared_ptr<Building>> buildings) {
     this->buildings = buildings;
 }
 
-void City::print() {
-    cout << "The following buildings are available: " << endl;
-    cout << "-------------------------------------------" << endl;
+string City::print() {
+    stringstream sout;
+    sout << "The following buildings are available: " << endl;
+    sout << "-------------------------------------------" << endl;
     for (int i=0; i<buildings.size(); i++) {
-        cout << i << ") ";
-        buildings[i]->print();
+        sout << i << ") " << buildings[i]->print();
     }
+    return sout.str();
 }
 
 long City::get_size() {

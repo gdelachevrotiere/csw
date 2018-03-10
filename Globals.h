@@ -8,7 +8,10 @@
 #include <memory>
 #include <functional>
 #include <algorithm>
-
+#include <sstream>
+#include <functional>
+#include <optional>
+#include <cassert>
 using namespace std;
 
 enum RessourceType { Gold, Wood, Stone, Clay, Glass, Paper };

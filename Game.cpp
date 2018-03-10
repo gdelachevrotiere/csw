@@ -4,32 +4,50 @@ Game::Game(
     shared_ptr<Player> playerA,
     shared_ptr<Player> playerB,
     vector<shared_ptr<Wonder>> wonders,
-    vector<shared_ptr<Building>> buildings
+    shared_ptr<City> city
 ) {
 	this->playerA = playerA;
 	this->playerB = playerB;
     playing = playerA;
-	conflictZone = make_unique<ConflictZone>(*new ConflictZone(3));
+	conflictZone = make_unique<ConflictZone>(*new ConflictZone(3, playerA, playerB));
     this->wonders = wonders;
-    this->city = make_unique<City>(*new City(buildings));
+    this->city = city;
+}
+
+string Game::print_players() {
+    stringstream sout;
+    sout << "The players are: " << endl;
+    sout << "-----------------" << endl;
+    sout << playerA->print() << endl;
+    sout << playerB->print() << endl;
+    return sout.str();
+}
+
+optional<shared_ptr<Player>> Game::get_winner() {
+    int a = 1;
+    int b = 2;
+    optional<shared_ptr<Player>> none = nullopt;
+    return (a == 2) ? playerA : none;
+}
+
+void Game::set_next_turn() {
+    playing = (playing == playerA) ? playerB : playerA;
 }
 
 void Game::do_round() {
-    cout << "The players are: " << endl;
-    cout << "-----------------" << endl;
-    playerA->print();
-    playerB->print();
-    cout << endl;
-
-    string chosen;
-
-    city->print();
-    cout << endl;
+    cout << print_players() << endl;
+    cout << city->print() << endl;
     cout << "Turn: " << playing->get_name() << endl;
     cout << "Choose a building[0-" << city->get_size()-1 << "]: ";
+
+    string chosen;
     cin >> chosen;
 
-    playing = (playing == playerA) ? playerB : playerA;
+    auto winner = get_winner();
+    if (winner) {
+        cout << "The winner is: " << (*winner)->get_name() << endl;
+    }
+    set_next_turn();
 }
 
 void Game::start() {

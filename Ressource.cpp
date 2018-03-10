@@ -11,7 +11,7 @@ int Ressource::get_production(RessourceType ressource_type) {
     return (production.end()!=production.find(ressource_type)) ? production[ressource_type] : 0;
 }
 
-void Ressource::print() {
+string Ressource::print() {
     auto f = [](RessourceType r){
         switch(r) {
             case Gold: return "Gold";
@@ -22,13 +22,15 @@ void Ressource::print() {
             case Paper: return "Paper";
         }
     };
-    cout << "Ressource[";
+    stringstream sout;
+    sout << "Ressource[";
     for (auto b: production) {
-        cout << "(" << f(b.first) << "," << b.second << ")";
+        sout << "(" << f(b.first) << "," << b.second << ")";
     }
-    cout << "] ~ ";
-    cost.print();
-    cout << endl;
+    sout << "] ~ " << cost.print() << endl;
+    return sout.str();
 }
+
+void Ressource::resolve_build_impact() { };
 
 Ressource::~Ressource() {}

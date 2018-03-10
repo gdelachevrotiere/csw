@@ -13,9 +13,9 @@ public:
     Ressource(RessourceType r): Ressource(r, 1) {};
     virtual ~Ressource();
 
-    int get_production(RessourceType);
-    void resolve_build_impact() {};
-    void print();
+    int get_production(RessourceType) final;
+    void resolve_build_impact() final;
+    string print() final;
 };
 
 #endif

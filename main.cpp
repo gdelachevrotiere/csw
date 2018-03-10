@@ -3,7 +3,7 @@
 #include "Wonder.h"
 #include "RawMaterial.h"
 #include "MilitaryBuilding.h"
-#include <functional>
+#include "test.h"
 using namespace std::placeholders;
 
 function<void(shared_ptr<Player>)> make_grant_gold(int n) {
@@ -22,6 +22,7 @@ shared_ptr<Artifact> choose_artifact(const vector<shared_ptr<Artifact>>& artifac
 
 int main() {
 
+    /*
 	const vector<shared_ptr<Wonder>> wonders {
         make_shared<Wonder>(*new Wonder("The Appian Way", Cost(RessourceMap{{Stone, 2},{Wood, 1}}), vector<Impact>())),
         make_shared<Wonder>(*new Wonder("Circus Maximus", Cost(RessourceMap{{Glass, 1},{Clay, 1},{Wood, 1}}), vector<Impact>())),
@@ -45,14 +46,23 @@ int main() {
     };
 
     const auto grantGold = make_grant_gold(3);
-
     shared_ptr<Impact> imp = make_shared<Impact>(*new Impact(grantGold));
 
-	shared_ptr<Player> playerA(new Player("Gabriel"));
-    shared_ptr<Player> playerB(new Player("Catherine"));
+	shared_ptr<Player> playerA(new Player(A, "Gabriel"));
+    shared_ptr<Player> playerB(new Player(B, "Catherine"));
+    shared_ptr<City> city(new City(buildings));
 
-    Game game(playerA, playerB, wonders, buildings);
-    game.start();
+
+    // playerA->build();
+
+    Game game(playerA, playerB, wonders, city);
+    // game.start();
+
+    */
+
+    player_test();
+    conflict_zone_test();
+    military_win_test();
 
     return 0;
 }

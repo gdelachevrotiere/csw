@@ -10,10 +10,10 @@ void MilitaryBuilding::resolve_build_impact() {
     owner->attack(strength);
 }
 
-void MilitaryBuilding::print() {
-    cout << "MilitaryBuilding[" << strength << "] ~ ";
-    cost.print();
-    cout << endl;
+string MilitaryBuilding::print() {
+    stringstream sout;
+    sout << "MilitaryBuilding[" << strength << "] ~ " << cost.print() << endl;
+    return sout.str();
 }
 
 MilitaryBuilding::~MilitaryBuilding() {}

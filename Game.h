@@ -10,13 +10,16 @@ class Game {
 	shared_ptr<Player> playerA, playerB;
     unique_ptr<ConflictZone> conflictZone;
 	vector<shared_ptr<Wonder>> wonders;
-	unique_ptr<City> city;
+    shared_ptr<City> city;
     shared_ptr<Player> playing;
 public:
-	Game(shared_ptr<Player>, shared_ptr<Player>, vector<shared_ptr<Wonder>>, vector<shared_ptr<Building>>);
+	Game(shared_ptr<Player>, shared_ptr<Player>, vector<shared_ptr<Wonder>>, shared_ptr<City>);
 	virtual ~Game();
 
-	void start();
+	string print_players();
+	void set_next_turn();
+    optional<shared_ptr<Player>> get_winner();
+    void start();
 	void do_round();
 };
 

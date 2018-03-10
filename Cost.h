@@ -16,7 +16,7 @@ public:
     int get_gold();
     int get_ressource(RessourceType);
     bool less_than(Cost);
-    void print();
+    string print();
 };
 
 

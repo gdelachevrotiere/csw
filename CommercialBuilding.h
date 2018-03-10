@@ -9,4 +9,4 @@ public:
 	virtual ~CommercialBuilding();
 };
 
-#endif /* COMMERCIALBUILDING_H_ */
+#endif

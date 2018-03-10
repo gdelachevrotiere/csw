@@ -18,15 +18,15 @@ bool Cost::less_than(Cost cost) {
     RessourceType ressource;
     for (int i=0;i++;i<6) {
         ressource = RessourceType(i);
-        ressourceCheck.insert(make_pair(ressource, this->get_ressource(ressource) < cost.get_ressource(ressource)));
+        ressourceCheck.insert(make_pair(ressource, this->get_ressource(ressource) <= cost.get_ressource(ressource)));
     }
     bool sufficientRessources = all_of(ressourceCheck.begin(), ressourceCheck.end(),
                                        [](pair<RessourceType,bool> p){ return p.second; });
-    bool sufficientGold = get_gold() < cost.get_gold();
+    bool sufficientGold = get_gold() <= cost.get_gold();
     return sufficientRessources && sufficientGold;
 }
 
-void Cost::print() {
+string Cost::print() {
     auto f = [](RessourceType r){
         switch(r) {
             case Gold: return "Gold";
@@ -37,11 +37,13 @@ void Cost::print() {
             case Paper: return "Paper";
         }
     };
-    cout << "Cost[" << "(Gold," << gold << ")";
+    stringstream sout;
+    sout << "Cost[" << "(Gold," << gold << ")";
     for (auto b: ressources) {
-        cout << "(" << f(b.first) << ", " << b.second << ")";
+        sout << "(" << f(b.first) << ", " << b.second << ")";
     }
-    cout << "]";
+    sout << "]";
+    return sout.str();
 }
 
 Cost::~Cost(){ }

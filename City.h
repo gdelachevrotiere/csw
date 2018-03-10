@@ -9,7 +9,7 @@ class City {
 public:
     City(vector<shared_ptr<Building>>);
     ~City();
-    void print();
+    string print();
     long get_size();
 };
 

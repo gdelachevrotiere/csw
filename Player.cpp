@@ -1,9 +1,11 @@
 #include "Player.h"
 #include "Building.h"
+#include "Buildable.h"
+#include "Wonder.h"
 
-Player::Player(string name) {
-	this->name = name;
-    wallet = make_shared<Wallet>(*new Wallet(7));
+Player::Player(string name, int gold) {
+    this->name = name;
+    wallet = make_shared<Wallet>(*new Wallet(gold));
 }
 
 int Player::get_production(const RessourceType ressource_type){
@@ -37,32 +39,52 @@ Cost Player::get_wealth() {
     return Cost(get_wallet()->get_gold(), production);
 }
 
-void Player::build(shared_ptr<Building> building) {
+bool Player::enough_wealth(shared_ptr<Buildable> buildable) {
+    return buildable->get_cost().less_than(get_wealth());
+}
 
-    if (building->get_cost().less_than(get_wealth()) ) {
-        building->set_owner(shared_ptr<Player>(this));
-        building->resolve_build_impact();
+bool Player::is_owner(shared_ptr<Buildable> buildable) {
+    return buildable->get_owner() == this;
+}
+
+bool Player::can_build(shared_ptr<Buildable> buildable) {
+    return enough_wealth(buildable) && is_owner(buildable);
+}
+
+void Player::build(shared_ptr<Buildable> buildable) {
+    if (can_build(buildable)) {
+        buildable->build();
+        buildable->resolve_build_impact();
+        wallet->spend(buildable->get_cost().get_gold());
     } else {
-        cout << "The player's wealth is insufficient to build this building." << endl;
+        throw runtime_error("The player's wealth is insufficient to build this building");
     }
 }
 
-void Player::attack(int n) {
-
+void Player::claim(shared_ptr<Buildable> buildable) {
+    buildable->set_owner(this);
 }
 
+void Player::set_conflict_zone(ConflictZone* zone) {
+    this->zone = zone;
+}
+
+void Player::attack(int n) {
+    zone->register_attack(this, n);
+}
 
 string Player::get_name() {
     return name;
 }
 
-void Player::print() {
-	cout << "Player[" << name << "](";
-    cout << "gold=" << wallet->get_gold();
-    cout << ",wood=" << get_production(Wood);
-    cout << ",clay=" << get_production(Clay);
-    cout << ",stone=" << get_production(Stone);
-    cout << ")" << endl;
+string Player::print() {
+    stringstream sout;
+	sout << "Player[" << name << "](";
+    sout << "gold=" << wallet->get_gold() << ",";
+    sout << "wood=" << get_production(Wood) << ",";
+    sout << "clay=" << get_production(Clay) << ",";
+    sout << "stone=" << get_production(Stone) << ")";
+    return sout.str();
 }
 
 Player::~Player() {}

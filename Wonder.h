@@ -2,21 +2,19 @@
 #define WONDER_H_
 
 #include "Globals.h"
+#include "Buildable.h"
 #include "Impact.h"
-#include "Cost.h"
 
-class Wonder {
+class Wonder: public Buildable {
 	string name;
-	bool built;
-	Cost cost;
 public:
 	Wonder(string, Cost, vector<Impact>);
 	virtual ~Wonder();
 
-	void build();
     string get_name();
-	Cost get_cost();
-	bool is_built();
+    int get_production(RessourceType) final;
+    void resolve_build_impact() final;
+	string print() final;
 };
 
 #endif
