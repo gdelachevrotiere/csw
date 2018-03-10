@@ -13,7 +13,10 @@ public:
     Cost(): Cost(0, RessourceMap()) {};
     virtual ~Cost();
 
+    int get_gold();
     int get_ressource(RessourceType);
+    bool less_than(Cost);
+    void print();
 };
 
 

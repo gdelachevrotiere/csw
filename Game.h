@@ -11,9 +11,13 @@ class Game {
     unique_ptr<ConflictZone> conflictZone;
 	vector<shared_ptr<Wonder>> wonders;
 	unique_ptr<City> city;
+    shared_ptr<Player> playing;
 public:
 	Game(shared_ptr<Player>, shared_ptr<Player>, vector<shared_ptr<Wonder>>, vector<shared_ptr<Building>>);
 	virtual ~Game();
+
+	void start();
+	void do_round();
 };
 
 #endif

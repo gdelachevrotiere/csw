@@ -1,11 +1,6 @@
 #include "CivilianBuilding.h"
 
-CivilianBuilding::CivilianBuilding() {
-	// TODO Auto-generated constructor stub
+CivilianBuilding::CivilianBuilding() {}
 
-}
-
-CivilianBuilding::~CivilianBuilding() {
-	// TODO Auto-generated destructor stub
-}
+CivilianBuilding::~CivilianBuilding() {}
 

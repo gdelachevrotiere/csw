@@ -1,5 +1,4 @@
 #include "Wonder.h"
-using namespace std;
 
 Wonder::Wonder(string name, Cost cost, vector<Impact> impacts) {
     this->name = name;

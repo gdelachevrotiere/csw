@@ -3,10 +3,10 @@
 
 #include "Globals.h"
 #include "Wallet.h"
-#include "Building.h"
 #include "Artifact.h"
-#include "Ressource.h"
-#include "RawMaterial.h"
+
+class Building;
+class Cost;
 
 class Player {
 	string name;
@@ -14,14 +14,17 @@ class Player {
 	vector<shared_ptr<Building>> buildings;
 	vector<shared_ptr<Artifact>> progressTokens;
 public:
-	Player(string s);
+	explicit Player(string s);
 	virtual ~Player();
 
 	void print();
     shared_ptr<Wallet> get_wallet();
-	int get_production(RessourceType);
-	void build(shared_ptr<Building> building);
     void attack(int n);
+    vector<shared_ptr<Building>> get_buildings();
+    Cost get_wealth();
+	string get_name();
+    int get_production(RessourceType);
+	void build(shared_ptr<Building> building);
 };
 
 #endif

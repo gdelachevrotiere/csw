@@ -7,10 +7,11 @@
 #include <iostream>
 #include <memory>
 #include <functional>
+#include <algorithm>
+
 using namespace std;
 
 enum RessourceType { Gold, Wood, Stone, Clay, Glass, Paper };
-
 typedef map<RessourceType,int> RessourceMap;
 
 #endif

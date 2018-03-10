@@ -1,11 +1,20 @@
 #include "MilitaryBuilding.h"
+#include "Player.h"
 
-MilitaryBuilding::MilitaryBuilding() {
-	// TODO Auto-generated constructor stub
-
+MilitaryBuilding::MilitaryBuilding(Cost cost, int strength) {
+    this->cost = cost;
+	this->strength = strength;
 }
 
-MilitaryBuilding::~MilitaryBuilding() {
-	// TODO Auto-generated destructor stub
+void MilitaryBuilding::resolve_build_impact() {
+    owner->attack(strength);
 }
+
+void MilitaryBuilding::print() {
+    cout << "MilitaryBuilding[" << strength << "] ~ ";
+    cost.print();
+    cout << endl;
+}
+
+MilitaryBuilding::~MilitaryBuilding() {}
 

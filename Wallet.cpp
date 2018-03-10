@@ -1,7 +1,6 @@
 #include "Wallet.h"
 
 Wallet::Wallet(int n) {
-    cout << "Wallet has been created with : " << n << " gold." << endl;
 	gold = n;
 }
 

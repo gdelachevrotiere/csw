@@ -9,4 +9,4 @@ public:
 	virtual ~CivilianBuilding();
 };
 
-#endif /* CIVILIANBUILDING_H_ */
+#endif

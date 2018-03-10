@@ -2,7 +2,6 @@
 #define WONDER_H_
 
 #include "Globals.h"
-#include "Ressource.h"
 #include "Impact.h"
 #include "Cost.h"
 
