@@ -14,7 +14,7 @@ public:
     virtual ~Ressource();
 
     int get_production(RessourceType) final;
-    void resolve_build_impact() final;
+    Impact get_build_impact() final;
     string print() final;
 };
 

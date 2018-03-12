@@ -9,4 +9,4 @@ public:
 	virtual ~Guild();
 };
 
-#endif /* GUILD_H_ */
+#endif

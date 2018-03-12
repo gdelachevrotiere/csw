@@ -3,18 +3,17 @@
 
 #include "Globals.h"
 #include "Buildable.h"
-#include "Impact.h"
 
 class Wonder: public Buildable {
 	string name;
-    vector<shared_ptr<Impact>> impacts;
+    vector<Impact> impacts;
 public:
-	Wonder(string, Cost, vector<shared_ptr<Impact>>);
+	Wonder(string, Cost, vector<Impact>);
 	virtual ~Wonder();
 
     string get_name();
     int get_production(RessourceType) final;
-    void resolve_build_impact() final;
+    Impact get_build_impact() final;
 	string print() final;
 };
 

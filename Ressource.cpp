@@ -31,6 +31,8 @@ string Ressource::print() {
     return sout.str();
 }
 
-void Ressource::resolve_build_impact() { };
+Impact Ressource::get_build_impact() {
+    return [](Player* p){}; //no impact
+};
 
 Ressource::~Ressource() {}

@@ -1,7 +1,9 @@
 #include "Wonder.h"
-#include "Impact.h"
+#include "lambda.h"
 
-Wonder::Wonder(string name, Cost cost, vector<shared_ptr<Impact>> impacts) {
+using namespace std::placeholders;
+
+Wonder::Wonder(string name, Cost cost, vector<Impact> impacts) {
     this->name = name;
 	this->cost = cost;
     this->impacts = impacts;
@@ -17,12 +19,12 @@ string Wonder::print() {
     return sout.str();
 }
 
-int Wonder::get_production(RessourceType ressource_type) { return 0; }
+int Wonder::get_production(RessourceType ressource_type) {
+    return 0;
+}
 
-void Wonder::resolve_build_impact() {
-    for(auto i: impacts) {
-        i->resolve(owner);
-    }
+Impact Wonder::get_build_impact() {
+    return multi_impact(impacts);
 };
 
 Wonder::~Wonder() { }

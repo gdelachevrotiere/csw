@@ -2,12 +2,17 @@
 #define PLAYER_H_
 
 #include "Globals.h"
-#include "Wallet.h"
 #include "Artifact.h"
 #include "ConflictZone.h"
 
 class Buildable;
 class Building;
+class CivilianBuilding;
+class CommercialBuilding;
+class ManufacturedGood;
+class MilitaryBuilding;
+class RawMaterial;
+class ScientificBuilding;
 class Cost;
 class Wonder;
 
@@ -16,28 +21,57 @@ function<void(Player*)> make_attack(int n);
 
 class Player {
 	string name;
-    shared_ptr<Wallet> wallet;
-	vector<shared_ptr<Building>> buildings;
-	vector<shared_ptr<Artifact>> progressTokens;
+    int gold;
+    shared_ptr<Building> active;
+
     ConflictZone* zone;
+
+    vector<shared_ptr<Wonder>> wonders;
+
+    vector<shared_ptr<CivilianBuilding>> civilians;
+    vector<shared_ptr<CommercialBuilding>> commerces;
+    vector<shared_ptr<ManufacturedGood>> manufactures;
+    vector<shared_ptr<MilitaryBuilding>> militaries;
+    vector<shared_ptr<RawMaterial>> materials;
+    vector<shared_ptr<ScientificBuilding>> scientifics;
+
+	vector<shared_ptr<Artifact>> progressTokens;
 public:
 	Player(string, int);
-	Player(string n) : Player(n, 7) {};
+    Player(): Player("john", 0) { };
+	explicit Player(string n) : Player(n, 7) {};
 	virtual ~Player();
 
+    // Members
+    string get_name();
+    vector<shared_ptr<Building>> get_buildings();
+    vector<shared_ptr<Wonder>> get_wonders();
+    Cost get_wealth();
 	string print();
-    shared_ptr<Wallet> get_wallet();
+
     void set_conflict_zone(ConflictZone*);
     void attack(int n);
-    vector<shared_ptr<Building>> get_buildings();
-    Cost get_wealth();
-	string get_name();
-    int get_production(RessourceType);
-    bool can_build(shared_ptr<Buildable>);
-	void claim(shared_ptr<Buildable>);
-	void build(shared_ptr<Buildable>);
     bool enough_wealth(shared_ptr<Buildable>);
+    bool can_build(shared_ptr<Buildable>);
+	void claim(shared_ptr<Building>);
+    void register_built(shared_ptr<Building>);
+    void claim_wonder(shared_ptr<Wonder>);
+    void build();
+    void build_wonder(shared_ptr<Wonder>);
     bool is_owner(shared_ptr<Buildable>);
+    bool is_active(shared_ptr<Building>);
+    void sell(shared_ptr<Graveyard>);
+    int get_production(RessourceType);
+    int get_cost(RessourceType, shared_ptr<Player>);
+    vector<RessourceType> get_cost_overrides();
+    Player copy();
+    Player tweak(vector<Tweak> tweaks);
+
+    // Wallet
+    int get_gold() const;
+    void earn(int);
+    bool can_spend(int);
+    void spend(int);
 };
 
 #endif

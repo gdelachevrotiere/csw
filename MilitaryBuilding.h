@@ -11,7 +11,7 @@ public:
 	virtual ~MilitaryBuilding();
 
     int get_production(RessourceType) final { return 0; };
-    void resolve_build_impact() final;
+    Impact get_build_impact() final;
     string print();
 };
 

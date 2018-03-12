@@ -4,12 +4,10 @@
 #include "Globals.h"
 #include "Buildable.h"
 
-class Player;
-
 class Building: public Buildable {
 public:
-    Building();
-    virtual ~Building();
+    Building() { };
+    virtual ~Building() { };
 };
 
 #endif

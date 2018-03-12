@@ -1,13 +1,14 @@
 #include "MilitaryBuilding.h"
 #include "Player.h"
+#include "lambda.h"
 
 MilitaryBuilding::MilitaryBuilding(Cost cost, int strength) {
     this->cost = cost;
 	this->strength = strength;
 }
 
-void MilitaryBuilding::resolve_build_impact() {
-    owner->attack(strength);
+Impact MilitaryBuilding::get_build_impact() {
+    return attack_impact(strength);
 }
 
 string MilitaryBuilding::print() {

@@ -4,13 +4,9 @@
 #include "RawMaterial.h"
 #include "MilitaryBuilding.h"
 
-function<void(shared_ptr<Player>)> gain_artifact = [](shared_ptr<Player> p) { };
-
-shared_ptr<Artifact> choose_artifact(const vector<shared_ptr<Artifact>>& artifact_bank) {
-    return artifact_bank.front();
-}
-
 int main() {
+
+    test_all();
 
     /*
 	const vector<shared_ptr<Wonder>> wonders {
@@ -50,11 +46,5 @@ int main() {
 
     */
 
-    test_all();
-
     return 0;
-}
-
-void run_game() {
-
 }
