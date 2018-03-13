@@ -31,7 +31,7 @@ void player_test() {
     player.build();
     assert(wood->is_built());
     assert(!clay->is_built());
-    assert(player.get_wealth().get_gold() == 0);
+    assert(player.get_gold() == 0);
     player.earn(2);
     player.claim(clay);
     assert(player.enough_wealth(clay));
@@ -43,7 +43,7 @@ void player_test() {
     assert(player.enough_wealth(appian));
     player.claim(bad);
     player.build_wonder(appian);
-    assert(player.get_wealth().get_gold() == 0);
+    assert(player.get_gold() == 0);
 
     cout << player.print() << endl;
 }
@@ -77,17 +77,17 @@ void military_win_test() {
     playerA->claim(military1);
     playerA->build();
     assert(zone.get_pawn_position()==-1);
-    assert(playerA->get_wealth().get_gold()==9);
+    assert(playerA->get_gold()==9);
 
     playerA->claim(military2);
     playerA->build();
     assert(zone.get_pawn_position()==-3);
-    assert(playerA->get_wealth().get_gold()==5);
+    assert(playerA->get_gold()==5);
 
     playerA->claim(military3);
     playerA->build();
     assert(zone.get_pawn_position()==-6);
-    assert(playerA->get_wealth().get_gold()==3);
+    assert(playerA->get_gold()==3);
 
     assert(zone.get_winner()==playerA);
     cout << zone.print() << endl;
@@ -118,14 +118,14 @@ void wonders_test() {
     playerA->claim_wonder(wonder3);
     playerA->claim_wonder(wonder4);
 
-    assert(playerA->get_wealth().get_gold()==0);
+    assert(playerA->get_gold()==0);
     playerA->claim(bad1);
     playerA->build_wonder(wonder1);
-    assert(playerA->get_wealth().get_gold()==1);
+    assert(playerA->get_gold()==1);
 
     playerA->claim(bad2);
     playerA->build_wonder(wonder2);
-    assert(playerA->get_wealth().get_gold()==3);
+    assert(playerA->get_gold()==3);
 
     playerA->claim(bad3);
     playerA->build_wonder(wonder3);
@@ -149,20 +149,20 @@ void sell_building_test() {
 
     player.claim(commerce_1);
     player.build();
-    assert(player.get_wealth().get_gold()==4);
+    assert(player.get_gold()==4);
 
     assert(!player.enough_wealth(wood));
     player.claim(wood);
     player.sell(graveyard);
-    assert(player.get_wealth().get_gold()==7);
+    assert(player.get_gold()==7);
 
     player.claim(commerce_2);
     player.build();
-    assert(player.get_wealth().get_gold()==13);
+    assert(player.get_gold()==13);
     player.claim(clay);
     player.sell(graveyard);
     cout << player.print() << endl;
-    assert(player.get_wealth().get_gold()==17);
+    assert(player.get_gold()==17);
 
     assert(graveyard->size()==2);
 }
@@ -222,7 +222,12 @@ void cost_tweak_test() {
 
 }
 
+void dynamic_test() {
+
+}
+
 void test_all() {
+    run("dynamic_test", dynamic_test);
     run("player_test", player_test);
     run("conflict_zone_test", conflict_zone_test);
     run("military_win_test", military_win_test);

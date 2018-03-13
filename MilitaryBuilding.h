@@ -4,14 +4,13 @@
 #include "Building.h"
 #include "ConflictZone.h"
 
-class MilitaryBuilding: public Building {
+class MilitaryBuilding final: public Building {
 	int strength;
 public:
     MilitaryBuilding(Cost c, int i);
 	virtual ~MilitaryBuilding();
 
-    int get_production(RessourceType) final { return 0; };
-    Impact get_build_impact() final;
+    Impact get_build_impact();
     string print();
 };
 

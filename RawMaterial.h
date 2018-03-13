@@ -3,12 +3,9 @@
 
 #include "Ressource.h"
 
-class RawMaterial: public Ressource {
+class RawMaterial final: public Ressource {
 public:
-    RawMaterial(Cost c, RessourceType r, int i): Ressource(c, r, i) { };
-    RawMaterial(Cost c, RessourceType r): Ressource(c, r) { };
-    RawMaterial(RessourceType r, int i): Ressource(r, i) { };
-    RawMaterial(RessourceType r): Ressource(r) { };
+    using Ressource::Ressource;
 };
 
 #endif

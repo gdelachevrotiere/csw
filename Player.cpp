@@ -1,10 +1,17 @@
 #include "Player.h"
-#include "Building.h"
-#include "Buildable.h"
 #include "Wonder.h"
-#include "CommercialBuilding.h"
 
-Player::Player(string name, int gold) {
+#include "Buildable.h"
+#include "Building.h"
+#include "CivilianBuilding.h"
+#include "CommercialBuilding.h"
+#include "ManufacturedGood.h"
+#include "MilitaryBuilding.h"
+#include "RawMaterial.h"
+#include "ScientificBuilding.h"
+#include "Ressource.h"
+
+Player::Player(const string& name, const int& gold) {
     this->name = name;
     this->gold = gold;
 }
@@ -24,6 +31,53 @@ Player Player::copy() {
     c.progressTokens = progressTokens;
     c.zone = zone;
     return c;
+}
+
+
+vector<shared_ptr<CivilianBuilding>> Player::get_civilians() {
+    return civilians;
+};
+
+vector<shared_ptr<CommercialBuilding>> Player::get_commerces() {
+    return commerces;
+};
+
+vector<shared_ptr<ManufacturedGood>> Player::get_manufactures() {
+    return manufactures;
+};
+
+vector<shared_ptr<MilitaryBuilding>> Player::get_militaries() {
+    return militaries;
+};
+
+vector<shared_ptr<RawMaterial>> Player::get_materials() {
+    return materials;
+};
+
+vector<shared_ptr<ScientificBuilding>> Player::get_scientifics() {
+    return scientifics;
+};
+
+vector<shared_ptr<Ressource>> Player::get_ressources() {
+    vector<shared_ptr<Ressource>> ressources;
+    for (auto r: get_materials()) {
+        ressources.push_back(r);
+    }
+    for (auto m: get_manufactures()) {
+        ressources.push_back(m);
+    }
+    return ressources;
+};
+
+vector<shared_ptr<Building>> Player::get_buildings() {
+    vector<shared_ptr<Building>> bs;
+    bs.insert(bs.end(), civilians.begin(), civilians.end());
+    bs.insert(bs.end(), commerces.begin(), commerces.end());
+    bs.insert(bs.end(), manufactures.begin(), manufactures.end());
+    bs.insert(bs.end(), militaries.begin(), militaries.end());
+    bs.insert(bs.end(), materials.begin(), materials.end());
+    bs.insert(bs.end(), scientifics.begin(), scientifics.end());
+    return bs;
 }
 
 Player Player::tweak(vector<Tweak> tweaks) {
@@ -53,12 +107,10 @@ int Player::get_cost(RessourceType ressource, shared_ptr<Player> opponent) {
 
 vector<RessourceType> Player::get_cost_overrides() {
     vector<RessourceType> v;
-    for (const auto& b: get_buildings()) {
-        if (const auto& c = dynamic_pointer_cast<CommercialBuilding>(b)) {
-           for (const auto&m : c->get_market()) {
-               v.push_back(m);
-           };
-        }
+    for (const auto& c: get_commerces()) {
+       for (const auto&m : c->get_market()) {
+           v.push_back(m);
+       };
     }
     sort(v.begin(), v.end());
     auto last = unique(v.begin(), v.end());
@@ -66,38 +118,67 @@ vector<RessourceType> Player::get_cost_overrides() {
     return v;
 }
 
-vector<shared_ptr<Building>> Player::get_buildings() {
-    vector<shared_ptr<Building>> buildings;
-    //buildings.insert(buildings.end(), civilians.begin(), civilians.end());
-    //buildings.insert(buildings.end(), commerces.begin(), commerces.end());
-    //buildings.insert(buildings.end(), manufactures.begin(), manufactures.end());
-    //buildings.insert(buildings.end(), militaries.begin(), militaries.end());
-    //buildings.insert(buildings.end(), materials.begin(), materials.end());
-    //buildings.insert(buildings.end(), scientifics.begin(), scientifics.end());
-    return buildings;
-}
-
 vector<shared_ptr<Wonder>> Player::get_wonders() {
     return wonders;
 }
 
-Cost Player::get_wealth() {
-    map<RessourceType,int> production;
+vector<RessourceMap> Player::get_production_alternatives() {
+    // Counts the raw production from Ressource cards (RawMaterial & ManufacturedGood)
+    int singleProduction[6];
+    vector<int> rindex {0, 1, 2, 3, 4, 5};
     int runningSum;
-    RessourceType ressource;
-    for (int i=0;i++;i<6) {
+    for (const auto &i: rindex) {
         runningSum = 0;
-        ressource = RessourceType(i);
-        for (const auto& b : get_buildings()) {
-            runningSum += b->get_production(ressource);
+        for (const auto& b : get_ressources()) {
+            runningSum += b->get_production(RessourceType(i));
         }
-        production.insert(make_pair(RessourceType(i),runningSum));
+        singleProduction[i] = runningSum;
     }
-    return Cost(get_gold(), production);
+
+    // Gets all combinations of shared_productions
+    vector<vector<RessourceType>> sharedProductions;
+    for (const auto& w: get_wonders()) {
+        sharedProductions.push_back(w->get_shared_production());
+    }
+
+    vector<vector<RessourceType>> sharedProductionPools = utils::cartesian_product(sharedProductions);
+
+    // Counts the total production per combined shared production pool, and adds raw production
+    vector<RessourceMap> allProductions;
+    int count;
+    int totalProduction[6];
+    for (const auto& production_pool: sharedProductionPools) {
+        for (const auto &i: rindex) {
+            totalProduction[i] = 0;
+        }
+        for (const auto &i: rindex) {
+            count = 0;
+            for (auto r: production_pool) {
+                if (r == RessourceType(i)) {
+                    count++;
+                }
+            }
+            totalProduction[i] = singleProduction[i] + count;
+        }
+        RessourceMap rmap;
+        for (const auto &i: rindex) {
+            if (totalProduction[i]>0) {
+                rmap.insert(pair<RessourceType,int>({RessourceType(i), totalProduction[i]}));
+            }
+        }
+        allProductions.push_back(rmap);
+
+    }
+    return allProductions;
 }
 
 bool Player::enough_wealth(shared_ptr<Buildable> buildable) {
-    return buildable->get_cost().less_than(get_wealth());
+    for (auto p: get_production_alternatives()) {
+        if (buildable->get_cost().less_than(Cost(get_gold(), p))) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Player::is_active(shared_ptr<Building> building) {
@@ -119,13 +200,25 @@ bool Player::can_build(shared_ptr<Buildable> buildable) {
     return (active!=nullptr) && enough_wealth(buildable);
 }
 
-void Player::register_built(shared_ptr<Building> building) {
-    //if(auto a = dynamic_pointer_cast<CivilianBuilding>(building)) { civilians.push_back(a); }
-    //else if(auto b = dynamic_pointer_cast<CommercialBuilding>(building)) { commerces.push_back(b); }
-    //else if(auto c = dynamic_pointer_cast<ManufacturedGood>(building)) { manufactures.push_back(c); }
-    //else if(auto d = dynamic_pointer_cast<MilitaryBuilding>(building)) { militaries.push_back(d); }
-    //else if(auto e = dynamic_pointer_cast<RawMaterial>(building)) { materials.push_back(e); }
-    //else if(auto f = dynamic_pointer_cast<ScientificBuilding>(building)) { scientifics.push_back(f); }
+void Player::register_built(shared_ptr<Building> b) {
+    if(auto pCivilian = dynamic_pointer_cast<CivilianBuilding>(b)) {
+        civilians.push_back(pCivilian);
+    }
+    else if(auto pCommercial = dynamic_pointer_cast<CommercialBuilding>(b)) {
+        commerces.push_back(pCommercial);
+    }
+    else if(auto pManufactured = dynamic_pointer_cast<ManufacturedGood>(b)) {
+        manufactures.push_back(pManufactured);
+    }
+    else if(auto pMilitary = dynamic_pointer_cast<MilitaryBuilding>(b)) {
+        militaries.push_back(pMilitary);
+    }
+    else if(auto pMaterial = dynamic_pointer_cast<RawMaterial>(b)) {
+        materials.push_back(pMaterial);
+    }
+    else if(auto pScientific = dynamic_pointer_cast<ScientificBuilding>(b)) {
+        scientifics.push_back(pScientific);
+    }
 }
 
 void Player::build() {
@@ -152,12 +245,7 @@ void Player::build_wonder(shared_ptr<Wonder> wonder) {
 }
 
 void Player::sell(shared_ptr<Graveyard> graveyard) {
-    int income = 2; //minimum income
-    for (const auto& b: get_buildings()) {
-        if (dynamic_pointer_cast<CommercialBuilding>(b)) {
-            income++;
-        }
-    }
+    int income = 2 + static_cast<int>(get_commerces().size());
     earn(income);
     graveyard->push_back(active);
     active.reset();

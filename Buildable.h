@@ -18,8 +18,7 @@ public:
     int get_victory_points();
     void build();
     bool is_built();
-    virtual int get_production(RessourceType) = 0;
-    virtual Impact get_build_impact() = 0;
+    virtual Impact get_build_impact();
     virtual string print() = 0;
 };
 

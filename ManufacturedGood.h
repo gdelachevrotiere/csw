@@ -3,9 +3,9 @@
 
 #include "Ressource.h"
 
-class ManufacturedGood: public Ressource {
+class ManufacturedGood final: public Ressource {
 public:
-	ManufacturedGood(Cost c, RessourceType r, int i): Ressource(c, r, i) { };
+	using Ressource::Ressource;
 };
 
 #endif

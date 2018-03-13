@@ -3,14 +3,12 @@
 
 #include "Building.h"
 
-class CivilianBuilding: public Building {
+class CivilianBuilding final: public Building {
 public:
 	CivilianBuilding();
 	virtual ~CivilianBuilding();
 
-	int get_production(RessourceType) final { return 0; };
-	Impact get_build_impact() final { return [](Player*){}; };
-	string print() final { return "dummy"; };
+	string print() { return "dummy"; };
 };
 
 #endif

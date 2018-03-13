@@ -19,8 +19,8 @@ string Wonder::print() {
     return sout.str();
 }
 
-int Wonder::get_production(RessourceType ressource_type) {
-    return 0;
+vector<RessourceType> Wonder::get_shared_production() {
+    return vector<RessourceType>();
 }
 
 Impact Wonder::get_build_impact() {

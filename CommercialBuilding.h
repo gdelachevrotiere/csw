@@ -3,7 +3,7 @@
 
 #include "Building.h"
 
-class CommercialBuilding: public Building {
+class CommercialBuilding final: public Building {
 	int income;
 	vector<RessourceType> market;
 public:
@@ -11,10 +11,10 @@ public:
 	CommercialBuilding(Cost, vector<RessourceType>);
 	virtual ~CommercialBuilding();
 
-	int get_production(RessourceType) final;
+	int get_production(RessourceType);
     vector<RessourceType> get_market();
-	Impact get_build_impact() final;
-	string print() final;
+	Impact get_build_impact();
+	string print();
 };
 
 #endif

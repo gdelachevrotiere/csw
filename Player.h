@@ -15,6 +15,7 @@ class RawMaterial;
 class ScientificBuilding;
 class Cost;
 class Wonder;
+class Ressource;
 
 function<void(Player*)> make_grant_gold(int n);
 function<void(Player*)> make_attack(int n);
@@ -23,10 +24,9 @@ class Player {
 	string name;
     int gold;
     shared_ptr<Building> active;
-
     ConflictZone* zone;
-
     vector<shared_ptr<Wonder>> wonders;
+    vector<shared_ptr<Artifact>> progressTokens;
 
     vector<shared_ptr<CivilianBuilding>> civilians;
     vector<shared_ptr<CommercialBuilding>> commerces;
@@ -34,20 +34,26 @@ class Player {
     vector<shared_ptr<MilitaryBuilding>> militaries;
     vector<shared_ptr<RawMaterial>> materials;
     vector<shared_ptr<ScientificBuilding>> scientifics;
-
-	vector<shared_ptr<Artifact>> progressTokens;
 public:
-	Player(string, int);
+	Player(const string&, const int&);
     Player(): Player("john", 0) { };
-	explicit Player(string n) : Player(n, 7) {};
+	explicit Player(const string& n) : Player(n, 7) {};
 	virtual ~Player();
 
     // Members
     string get_name();
     vector<shared_ptr<Building>> get_buildings();
     vector<shared_ptr<Wonder>> get_wonders();
-    Cost get_wealth();
+    vector<RessourceMap> get_production_alternatives();
 	string print();
+
+    vector<shared_ptr<CivilianBuilding>> get_civilians();
+    vector<shared_ptr<CommercialBuilding>> get_commerces();
+    vector<shared_ptr<ManufacturedGood>> get_manufactures();
+    vector<shared_ptr<MilitaryBuilding>> get_militaries();
+    vector<shared_ptr<RawMaterial>> get_materials();
+    vector<shared_ptr<ScientificBuilding>> get_scientifics();
+    vector<shared_ptr<Ressource>> get_ressources();
 
     void set_conflict_zone(ConflictZone*);
     void attack(int n);

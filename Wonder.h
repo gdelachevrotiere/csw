@@ -4,7 +4,7 @@
 #include "Globals.h"
 #include "Buildable.h"
 
-class Wonder: public Buildable {
+class Wonder final: public Buildable {
 	string name;
     vector<Impact> impacts;
 public:
@@ -12,9 +12,10 @@ public:
 	virtual ~Wonder();
 
     string get_name();
-    int get_production(RessourceType) final;
-    Impact get_build_impact() final;
-	string print() final;
+    int get_production(RessourceType);
+	vector<RessourceType> get_shared_production();
+    Impact get_build_impact();
+	string print();
 };
 
 #endif

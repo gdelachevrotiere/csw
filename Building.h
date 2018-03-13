@@ -5,9 +5,15 @@
 #include "Buildable.h"
 
 class Building: public Buildable {
+    optional<Link> link;
 public:
-    Building() { };
-    virtual ~Building() { };
+    Building() {
+        link = nullopt;
+    };
+    virtual ~Building() {};
+
+    optional<Link> get_link();
+    virtual int get_production(RessourceType);
 };
 
 #endif

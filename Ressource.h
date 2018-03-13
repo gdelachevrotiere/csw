@@ -4,18 +4,18 @@
 #include "Building.h"
 
 class Ressource: public Building {
-    RessourceMap production;
+    RessourceType ressource;
+    int quantity;
 public:
     Ressource();
-    Ressource(Cost, RessourceType, int);
-    Ressource(Cost c, RessourceType r): Ressource(c, r, 1) {};
-    Ressource(RessourceType r, int i): Ressource(Cost(), r, i) {};
-    Ressource(RessourceType r): Ressource(r, 1) {};
+    Ressource(const Cost&, const RessourceType&, const int&);
+    Ressource(const Cost &c, const RessourceType &r): Ressource(c, r, 1) {};
+    Ressource(const RessourceType& r, const int& i): Ressource(Cost(), r, i) {};
+    Ressource(const RessourceType& r): Ressource(r, 1) {};
     virtual ~Ressource();
 
     int get_production(RessourceType) final;
-    Impact get_build_impact() final;
-    string print() final;
+    string print();
 };
 
 #endif
