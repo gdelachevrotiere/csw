@@ -3,6 +3,7 @@
 Buildable::Buildable() {
     victoryPoints = 0;
     built = false;
+    claimed = false;
 }
 
 Cost Buildable::get_cost() {
@@ -13,7 +14,21 @@ bool Buildable::is_built() {
     return built;
 }
 
-void Buildable::build() {
+bool Buildable::is_claimed() {
+    return claimed;
+}
+
+void Buildable::register_claim() {
+    if (is_claimed()) {
+        throw runtime_error("the buildable is already claimed");
+    }
+    claimed = true;
+}
+
+void Buildable::register_build() {
+    if (is_built()) {
+        throw runtime_error("the buildable is already built");
+    }
     built = true;
 }
 

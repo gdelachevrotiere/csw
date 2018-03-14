@@ -137,8 +137,12 @@ vector<RessourceMap> Player::get_production_alternatives() {
 
     // Gets all combinations of shared_productions
     vector<vector<RessourceType>> sharedProductions;
+    vector<RessourceType> sp;
     for (const auto& w: get_wonders()) {
-        sharedProductions.push_back(w->get_shared_production());
+        sp = w->get_shared_production();
+        if (!sp.empty()) {
+            sharedProductions.push_back(sp);
+        }
     }
 
     vector<vector<RessourceType>> sharedProductionPools = utils::cartesian_product(sharedProductions);
@@ -148,9 +152,6 @@ vector<RessourceMap> Player::get_production_alternatives() {
     int count;
     int totalProduction[6];
     for (const auto& production_pool: sharedProductionPools) {
-        for (const auto &i: rindex) {
-            totalProduction[i] = 0;
-        }
         for (const auto &i: rindex) {
             count = 0;
             for (auto r: production_pool) {
@@ -166,14 +167,48 @@ vector<RessourceMap> Player::get_production_alternatives() {
                 rmap.insert(pair<RessourceType,int>({RessourceType(i), totalProduction[i]}));
             }
         }
-        allProductions.push_back(rmap);
-
+        if(!rmap.empty()) {
+            allProductions.push_back(rmap);
+        }
     }
+
+    // If there was no production alternatives, consider the regular production
+    if(allProductions.empty()) {
+        RessourceMap rmap;
+        for (const auto &i: rindex) {
+            if (singleProduction[i]>0) {
+                rmap.insert(pair<RessourceType,int>({RessourceType(i), singleProduction[i]}));
+            }
+        }
+        allProductions.push_back(rmap);
+    }
+
     return allProductions;
 }
 
+int Player::get_total_cost(shared_ptr<Building> building, shared_ptr<Player> opponent) {
+    vector<int> rindex {0, 1, 2, 3, 4, 5};
+    int have, diff, price;
+    RessourceType r;
+    Cost buildingCost = building->get_cost();
+    auto alternatives = get_production_alternatives();
+    vector<int> prices;
+    for (auto a: alternatives) {
+        price = 0;
+        for (const auto &i: rindex) {
+            r = RessourceType(i);
+            have = a.find(r)!=a.end() ? a[r] : 0;
+            diff = buildingCost.get_ressource(r) - have;
+            price += diff<=0 ? 0: diff*get_cost(r, opponent);
+        }
+        prices.push_back(price);
+    }
+    int min = *min_element(prices.begin(), prices.end());
+    return min;
+}
+
 bool Player::enough_wealth(shared_ptr<Buildable> buildable) {
-    for (auto p: get_production_alternatives()) {
+    for (const auto &p: get_production_alternatives()) {
         if (buildable->get_cost().less_than(Cost(get_gold(), p))) {
             return true;
         }
@@ -194,10 +229,6 @@ bool Player::is_owner(shared_ptr<Buildable> buildable) {
     } else {
         throw runtime_error("unsupported buildable type");
     }
-}
-
-bool Player::can_build(shared_ptr<Buildable> buildable) {
-    return (active!=nullptr) && enough_wealth(buildable);
 }
 
 void Player::register_built(shared_ptr<Building> b) {
@@ -221,26 +252,37 @@ void Player::register_built(shared_ptr<Building> b) {
     }
 }
 
+bool Player::can_build(shared_ptr<Buildable> buildable) {
+    if (active==nullptr) {
+        throw runtime_error("there is no active building, choose a building first");
+    } else if (!enough_wealth(buildable)) {
+        throw runtime_error("the player's wealth is insufficient to build this building");
+    } else if (buildable->is_built()){
+        throw runtime_error("the building is already built");
+    }
+    return true;
+}
+
 void Player::build() {
     if (can_build(active)) {
         spend(active->get_cost().get_gold());
-        active->build();
+        active->register_build();
         active->get_build_impact()(this);
         register_built(active);
         active.reset();
     } else {
-        throw runtime_error("The player's wealth is insufficient to build this building, or there is no active building");
+        throw runtime_error("can't build");
     }
 }
 
 void Player::build_wonder(shared_ptr<Wonder> wonder) {
     if (can_build(wonder)) {
         spend(wonder->get_cost().get_gold());
-        wonder->build();
+        wonder->register_build();
         wonder->get_build_impact()(this);
         active.reset();
     } else {
-        throw runtime_error("The player's wealth is insufficient to build this wonder, or there is no active building");
+        throw runtime_error("can't build");
     }
 }
 
@@ -252,10 +294,17 @@ void Player::sell(shared_ptr<Graveyard> graveyard) {
 }
 
 void Player::claim(shared_ptr<Building> building) {
+    building->register_claim();
     active = move(building);
 }
 
+void Player::qbuild(shared_ptr<Building> building) {
+    claim(building);
+    build();
+}
+
 void Player::claim_wonder(shared_ptr<Wonder> wonder) {
+    wonder->register_claim();
     wonders.push_back(wonder);
 }
 

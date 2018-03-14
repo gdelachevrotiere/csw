@@ -44,7 +44,6 @@ public:
     string get_name();
     vector<shared_ptr<Building>> get_buildings();
     vector<shared_ptr<Wonder>> get_wonders();
-    vector<RessourceMap> get_production_alternatives();
 	string print();
 
     vector<shared_ptr<CivilianBuilding>> get_civilians();
@@ -58,16 +57,19 @@ public:
     void set_conflict_zone(ConflictZone*);
     void attack(int n);
     bool enough_wealth(shared_ptr<Buildable>);
-    bool can_build(shared_ptr<Buildable>);
 	void claim(shared_ptr<Building>);
     void register_built(shared_ptr<Building>);
     void claim_wonder(shared_ptr<Wonder>);
+    bool can_build(shared_ptr<Buildable> buildable);
+    int get_total_cost(shared_ptr<Building>, shared_ptr<Player>);
     void build();
+    void qbuild(shared_ptr<Building>);
     void build_wonder(shared_ptr<Wonder>);
     bool is_owner(shared_ptr<Buildable>);
     bool is_active(shared_ptr<Building>);
     void sell(shared_ptr<Graveyard>);
     int get_production(RessourceType);
+    vector<RessourceMap> get_production_alternatives();
     int get_cost(RessourceType, shared_ptr<Player>);
     vector<RessourceType> get_cost_overrides();
     Player copy();

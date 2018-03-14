@@ -14,10 +14,6 @@ CommercialBuilding::CommercialBuilding(Cost cost, int income) {
     this->market = vector<RessourceType>();
 }
 
-int CommercialBuilding::get_production(RessourceType) {
-    return 0;
-};
-
 vector<RessourceType> CommercialBuilding::get_market() {
     return market;
 }

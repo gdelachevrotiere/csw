@@ -3,10 +3,16 @@
 
 using namespace std::placeholders;
 
-Wonder::Wonder(string name, Cost cost, vector<Impact> impacts) {
+Wonder::Wonder(
+    const string& name,
+    const Cost& cost,
+    const vector<RessourceType>& sharedProduction,
+    const vector<Impact> &impacts
+) {
     this->name = name;
 	this->cost = cost;
     this->impacts = impacts;
+    this->sharedProduction = sharedProduction;
 }
 
 string Wonder::get_name() {
@@ -20,7 +26,7 @@ string Wonder::print() {
 }
 
 vector<RessourceType> Wonder::get_shared_production() {
-    return vector<RessourceType>();
+    return is_built() ? sharedProduction: vector<RessourceType>();
 }
 
 Impact Wonder::get_build_impact() {

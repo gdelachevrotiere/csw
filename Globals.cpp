@@ -13,7 +13,8 @@ string print_ressource(RessourceType r){
 
 namespace utils {
     vector<vector<RessourceType>> cartesian_product(const vector<vector<RessourceType>> &v) {
-        vector<vector<RessourceType>> s{{}};
+        if(v.empty()) { return v; }
+        vector<vector<RessourceType>> s {{}};
         for (const auto &u : v) {
             vector<vector<RessourceType>> r;
             for (const auto &x : s) {

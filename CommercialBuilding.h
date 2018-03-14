@@ -11,7 +11,6 @@ public:
 	CommercialBuilding(Cost, vector<RessourceType>);
 	virtual ~CommercialBuilding();
 
-	int get_production(RessourceType);
     vector<RessourceType> get_market();
 	Impact get_build_impact();
 	string print();

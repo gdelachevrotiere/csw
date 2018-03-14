@@ -222,6 +222,56 @@ void cost_tweak_test() {
 
 }
 
+void shared_production_test() {
+
+    auto bad1 = make_shared<RawMaterial>(*new RawMaterial(Cost(10), Wood));
+    auto bad2 = make_shared<RawMaterial>(*new RawMaterial(Cost(10), Wood));
+
+    auto wonder1 = make_shared<Wonder>(*new Wonder("wonder1", Cost(0), vector<RessourceType>({Wood, Stone}) ));
+    auto wonder2 = make_shared<Wonder>(*new Wonder("wonder2", Cost(0), vector<RessourceType>({Wood, Clay}) ));
+
+    Player player("john", 2);
+    player.claim_wonder(wonder1);
+    player.claim_wonder(wonder2);
+    assert(player.get_production_alternatives().size() == 1);
+    player.claim(bad1);
+    player.build_wonder(wonder1);
+    assert(player.get_production_alternatives().size() == 2);
+    player.claim(bad2);
+    player.build_wonder(wonder2);
+    assert(player.get_production_alternatives().size() == 4);
+
+}
+
+void total_cost_test() {
+
+    auto b1 = make_shared<RawMaterial>(*new RawMaterial(Cost(0), Wood));
+    auto b2 = make_shared<RawMaterial>(*new RawMaterial(Cost(1), Wood));
+    auto b3 = make_shared<RawMaterial>(*new RawMaterial(Cost(1), Clay));
+    auto b4 = make_shared<RawMaterial>(*new RawMaterial(Cost(1), Clay));
+    auto b5 = make_shared<RawMaterial>(*new RawMaterial(Cost(2), Stone));
+    auto b6 = make_shared<RawMaterial>(*new RawMaterial(Cost(2), Stone));
+
+    auto playerA = make_shared<Player>(*new Player("gabriel", 2));
+    auto playerB = make_shared<Player>(*new Player("catherine", 5));
+
+    for (const auto& b: {b1, b2, b3}) playerA->qbuild(b);
+    for (const auto& b: {b4, b5, b6}) playerB->qbuild(b);
+
+    assert(playerA->get_gold()==0);
+    playerA->earn(5);
+    auto market = vector<RessourceType>({Stone});
+    auto commerce1 = make_shared<CommercialBuilding>(*new CommercialBuilding(Cost(0, {{Wood,1}, {Stone,1}}), market));
+    assert(playerA->get_total_cost(commerce1, playerB)==4);
+    playerA->qbuild(commerce1);
+
+    auto commerce2 = make_shared<CommercialBuilding>(*new CommercialBuilding(Cost(0, {{Wood,1}, {Stone,1}}), 0));
+    assert(commerce1->get_market()==vector<RessourceType>({Stone}));
+    assert(playerA->get_total_cost(commerce2, playerB)==1);
+    playerA->qbuild(commerce2);
+
+}
+
 void dynamic_test() {
 
 }
@@ -235,4 +285,6 @@ void test_all() {
     run("sell_building_test", sell_building_test);
     run("quantity_test", quantity_test);
     run("cost_tweak_test", cost_tweak_test);
+    run("shared_production_test", shared_production_test);
+    run("total_cost_test", total_cost_test);
 }
