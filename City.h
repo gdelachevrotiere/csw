@@ -5,12 +5,18 @@
 #include "Building.h"
 
 class City {
-    vector<shared_ptr<Building>> buildings;
+    vector<vector<shared_ptr<Building>>> levels;
 public:
-    City(vector<shared_ptr<Building>>);
-    ~City();
-    string print();
+    City(const vector<shared_ptr<Building>>&, const vector<int>&);
+    ~City() { };
+
+    vector<vector<shared_ptr<Building>>> get_levels();
+    vector<shared_ptr<Building>> get_unordered_buildings();
+    vector<shared_ptr<Building>> get_available_buildings();
+
     long get_size();
+    shared_ptr<Building> pop(int);
+    string print();
 };
 
 

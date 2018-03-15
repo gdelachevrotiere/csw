@@ -5,7 +5,7 @@
 
 class CivilianBuilding final: public Building {
 public:
-	CivilianBuilding(const int& victorypoints);
+	CivilianBuilding(const Cost&, const int& victorypoints);
 	virtual ~CivilianBuilding() { };
 
 	string print();

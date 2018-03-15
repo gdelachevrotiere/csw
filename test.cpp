@@ -5,6 +5,7 @@
 #include "ConflictZone.h"
 #include "MilitaryBuilding.h"
 #include "CommercialBuilding.h"
+#include "City.h"
 
 void run(const string &name, const function<void()>& lambda) {
     cout << "[UNIT] Starting " << name << "..." << endl;
@@ -271,6 +272,22 @@ void total_cost_test() {
 
 }
 
+void city_test() {
+
+    vector<shared_ptr<Building>> buildings;
+    vector<int> v {0, 1, 2, 0, 2, 1, 1, 3, 1};
+    for(const auto& i: v) {
+        buildings.push_back( make_shared<RawMaterial>(*new RawMaterial(Cost(i), Wood)) );
+    };
+
+    vector<int> layers { 2, 3, 4 };
+
+    City city(buildings, layers);
+    assert(city.get_levels().size()==3);
+    assert(city.get_unordered_buildings().size()==9);
+
+}
+
 void dynamic_test() {
 
 }
@@ -286,4 +303,5 @@ void test_all() {
     run("cost_tweak_test", cost_tweak_test);
     run("shared_production_test", shared_production_test);
     run("total_cost_test", total_cost_test);
+    run("city_test", city_test);
 }

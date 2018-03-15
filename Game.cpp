@@ -4,14 +4,16 @@ Game::Game(
     shared_ptr<Player> playerA,
     shared_ptr<Player> playerB,
     vector<shared_ptr<Wonder>> wonders,
-    shared_ptr<City> city
+    shared_ptr<City> city,
+    shared_ptr<ConflictZone> conflictZone
 ) {
 	this->playerA = playerA;
 	this->playerB = playerB;
-    playing = playerA;
-	conflictZone = make_unique<ConflictZone>(*new ConflictZone(3, playerA, playerB));
+	this->conflictZone = conflictZone;
     this->wonders = wonders;
     this->city = city;
+
+    playing = playerA;
 }
 
 string Game::print_players() {
@@ -21,6 +23,10 @@ string Game::print_players() {
     sout << playerA->print() << endl;
     sout << playerB->print() << endl;
     return sout.str();
+}
+
+shared_ptr<Player> Game::get_playing() {
+    return playing;
 }
 
 optional<shared_ptr<Player>> Game::get_winner() {
@@ -35,19 +41,45 @@ void Game::set_next_turn() {
 }
 
 void Game::do_round() {
+
     cout << print_players() << endl;
     cout << city->print() << endl;
     cout << "Turn: " << playing->get_name() << endl;
-    cout << "Choose a building[0-" << city->get_size()-1 << "]: ";
+    cout << "Claim a building[0-" << city->get_size()-1 << "]: ";
 
-    string chosen;
-    cin >> chosen;
+    string claim;
+    cin >> claim;
+    cout << endl;
+
+    auto claimed = city->pop(stoi(claim));
+    playing->claim(claimed);
+
+    cout << "The building [" << claim << "] was claimed." << endl;
+    cout << "Choose an action: " << endl;
+    cout << "1) Build" << endl;
+    cout << "2) Sell" << endl;
+    cout << "3) Build Wonder" << endl;
+
+    string action;
+    cin >> action;
+    cout << endl;
+
+    switch (stoi(action)) {
+        case 1:
+            playing->build();
+        case 2:
+            playing->sell(graveyard);
+        case 3:
+            throw runtime_error("not yet implemented");
+    };
 
     auto winner = get_winner();
     if (winner) {
         cout << "The winner is: " << (*winner)->get_name() << endl;
     }
+
     set_next_turn();
+
 }
 
 void Game::start() {
@@ -60,8 +92,3 @@ void Game::start() {
         cin >> dummy;
     }
 };
-
-Game::~Game() {
-
-}
-

@@ -9,7 +9,7 @@ class Ressource: public Building {
 public:
     Ressource();
     Ressource(const Cost&, const RessourceType&, const int&);
-    Ressource(const Cost &c, const RessourceType &r): Ressource(c, r, 1) {};
+    Ressource(const Cost& c, const RessourceType &r): Ressource(c, r, 1) {};
     Ressource(const RessourceType& r, const int& i): Ressource(Cost(), r, i) {};
     Ressource(const RessourceType& r): Ressource(r, 1) {};
     virtual ~Ressource() { };

@@ -1,11 +1,12 @@
 #include "CivilianBuilding.h"
 
-CivilianBuilding::CivilianBuilding(const int &victorypoints) {
+CivilianBuilding::CivilianBuilding(const Cost& cost, const int &victorypoints) {
     this->victoryPoints = victoryPoints;
+    this->cost = cost;
 };
 
 string CivilianBuilding::print() {
     stringstream sout;
-    sout << "CivilianBuilding[" << get_victory_points() << "]" << endl;
+    sout << "CivilianBuilding[" << get_victory_points() << "] ~ " << cost.print() << endl;
     return sout.str();
 };

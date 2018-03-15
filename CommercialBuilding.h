@@ -8,7 +8,7 @@ class CommercialBuilding final: public Building {
 	vector<RessourceType> market;
 public:
     CommercialBuilding(const Cost&, const int&);
-	CommercialBuilding(const Cost&, const vector<RessourceType> &);
+	CommercialBuilding(const Cost&, const vector<RessourceType>&);
 	virtual ~CommercialBuilding() { };
 
     vector<RessourceType> get_market();
