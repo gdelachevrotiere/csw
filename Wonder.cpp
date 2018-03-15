@@ -1,5 +1,4 @@
 #include "Wonder.h"
-#include "lambda.h"
 
 using namespace std::placeholders;
 
@@ -30,8 +29,6 @@ vector<RessourceType> Wonder::get_shared_production() {
 }
 
 Impact Wonder::get_build_impact() {
-    return multi_impact(impacts);
+    return lambda::multi_impact(impacts);
 };
-
-Wonder::~Wonder() { }
 

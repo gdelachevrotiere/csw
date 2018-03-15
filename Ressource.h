@@ -12,7 +12,7 @@ public:
     Ressource(const Cost &c, const RessourceType &r): Ressource(c, r, 1) {};
     Ressource(const RessourceType& r, const int& i): Ressource(Cost(), r, i) {};
     Ressource(const RessourceType& r): Ressource(r, 1) {};
-    virtual ~Ressource();
+    virtual ~Ressource() { };
 
     int get_production(RessourceType) final;
     string print();

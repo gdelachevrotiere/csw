@@ -1,6 +1,5 @@
 #include "MilitaryBuilding.h"
 #include "Player.h"
-#include "lambda.h"
 
 MilitaryBuilding::MilitaryBuilding(Cost cost, int strength) {
     this->cost = cost;
@@ -8,7 +7,7 @@ MilitaryBuilding::MilitaryBuilding(Cost cost, int strength) {
 }
 
 Impact MilitaryBuilding::get_build_impact() {
-    return attack_impact(strength);
+    return lambda::attack_impact(strength);
 }
 
 string MilitaryBuilding::print() {

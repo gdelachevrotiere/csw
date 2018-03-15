@@ -13,7 +13,7 @@ protected:
     bool claimed;
 public:
     Buildable();
-    virtual ~Buildable();
+    virtual ~Buildable() { };
 
     Cost get_cost();
     int get_victory_points();

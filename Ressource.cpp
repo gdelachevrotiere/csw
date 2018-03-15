@@ -15,9 +15,7 @@ int Ressource::get_production(RessourceType ressource) {
 string Ressource::print() {
     stringstream sout;
     sout << "Ressource[";
-    sout << "(" << print_ressource(ressource) << "," << quantity << ")";
+    sout << "(" << util::print_ressource(ressource) << "," << quantity << ")";
     sout << "] ~ " << cost.print() << endl;
     return sout.str();
 }
-
-Ressource::~Ressource() {}

@@ -145,7 +145,7 @@ vector<RessourceMap> Player::get_production_alternatives() {
         }
     }
 
-    vector<vector<RessourceType>> sharedProductionPools = utils::cartesian_product(sharedProductions);
+    vector<vector<RessourceType>> sharedProductionPools = util::cartesian_product(sharedProductions);
 
     // Counts the total production per combined shared production pool, and adds raw production
     vector<RessourceMap> allProductions;

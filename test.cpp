@@ -5,7 +5,6 @@
 #include "ConflictZone.h"
 #include "MilitaryBuilding.h"
 #include "CommercialBuilding.h"
-#include "lambda.h"
 
 void run(const string &name, const function<void()>& lambda) {
     cout << "[UNIT] Starting " << name << "..." << endl;
@@ -94,10 +93,10 @@ void military_win_test() {
 }
 
 void wonders_test() {
-    vector<Impact> impacts1 { income_impact(1) };
-    vector<Impact> impacts2 { income_impact(2) };
-    vector<Impact> impacts3 { attack_impact(1) };
-    vector<Impact> impacts4 { attack_impact(2) };
+    vector<Impact> impacts1 { lambda::income_impact(1) };
+    vector<Impact> impacts2 { lambda::income_impact(2) };
+    vector<Impact> impacts3 { lambda::attack_impact(1) };
+    vector<Impact> impacts4 { lambda::attack_impact(2) };
 
     auto wonder1 = make_shared<Wonder>(*new Wonder("wonder1", Cost(0), impacts1));
     auto wonder2 = make_shared<Wonder>(*new Wonder("wonder2", Cost(0), impacts2));

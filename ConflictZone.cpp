@@ -54,5 +54,3 @@ string ConflictZone::print() {
     return sout.str();
 }
 
-ConflictZone::~ConflictZone() {}
-

@@ -7,9 +7,9 @@ class CommercialBuilding final: public Building {
 	int income;
 	vector<RessourceType> market;
 public:
-    CommercialBuilding(Cost, int);
-	CommercialBuilding(Cost, vector<RessourceType>);
-	virtual ~CommercialBuilding();
+    CommercialBuilding(const Cost&, const int&);
+	CommercialBuilding(const Cost&, const vector<RessourceType> &);
+	virtual ~CommercialBuilding() { };
 
     vector<RessourceType> get_market();
 	Impact get_build_impact();

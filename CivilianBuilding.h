@@ -5,10 +5,10 @@
 
 class CivilianBuilding final: public Building {
 public:
-	CivilianBuilding();
-	virtual ~CivilianBuilding();
+	CivilianBuilding(const int& victorypoints);
+	virtual ~CivilianBuilding() { };
 
-	string print() { return "dummy"; };
+	string print();
 };
 
 #endif

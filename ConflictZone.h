@@ -17,7 +17,7 @@ public:
     void move_pawn(int);
 	optional<shared_ptr<Player>> get_winner();
     string print();
-	virtual ~ConflictZone();
+	virtual ~ConflictZone() { };
 };
 
 #endif

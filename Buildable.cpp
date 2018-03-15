@@ -39,5 +39,3 @@ int Buildable::get_victory_points() {
 Impact Buildable::get_build_impact() {
     return [](Player* p){};
 };
-
-Buildable::~Buildable() { }

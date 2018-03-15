@@ -7,11 +7,15 @@ class Player;
 
 class Artifact {
 	int victoryPoints;
-    function<void(Player*)> preModifier;
-    function<void(Player*)> postModifier;
+    Impact preModifier;
+	Impact postModifier;
 public:
-	Artifact();
-	virtual ~Artifact();
+	Artifact(const int&, const Impact&, const Impact&);
+	virtual ~Artifact() { };
+
+	int get_victory_points();
+	Impact get_pre_modifier();
+	Impact get_post_modifier();
 };
 
 #endif

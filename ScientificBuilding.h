@@ -3,10 +3,14 @@
 
 #include "Building.h"
 
-class ScientificBuilding: public Building {
+class ScientificBuilding final: public Building {
+	Science science;
 public:
-	ScientificBuilding();
-	virtual ~ScientificBuilding();
+	ScientificBuilding(const Science&, const int&);
+	explicit ScientificBuilding(const Science& s): ScientificBuilding(s, 0) { };
+	virtual ~ScientificBuilding() { };
+
+	Science get_science();
 };
 
 #endif

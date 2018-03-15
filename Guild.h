@@ -5,8 +5,8 @@
 
 class Guild: public Building {
 public:
-	Guild();
-	virtual ~Guild();
+	Guild() { };
+	virtual ~Guild() { };
 };
 
 #endif

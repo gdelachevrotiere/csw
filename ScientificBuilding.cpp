@@ -1,9 +1,11 @@
 #include "ScientificBuilding.h"
 
-ScientificBuilding::ScientificBuilding() {
-
+ScientificBuilding::ScientificBuilding(const Science& science, const int& victoryPoints) {
+    this->science = science;
+    this->victoryPoints = victoryPoints;
 }
 
-ScientificBuilding::~ScientificBuilding() {
+Science ScientificBuilding::get_science() {
+    return science;
 }
 

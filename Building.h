@@ -7,9 +7,7 @@
 class Building: public Buildable {
     optional<Link> link;
 public:
-    Building() {
-        link = nullopt;
-    };
+    Building() { link = nullopt; };
     virtual ~Building() {};
 
     optional<Link> get_link();
