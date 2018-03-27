@@ -9,3 +9,9 @@ Science ScientificBuilding::get_science() {
     return science;
 }
 
+string ScientificBuilding::print() {
+    stringstream sout;
+    sout << "ScientificBuilding[" << util::print_science(science) << "]";
+    return sout.str();
+}
+

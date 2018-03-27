@@ -12,7 +12,28 @@ namespace util {
             case Glass: return "Glass";
             case Paper: return "Paper";
         }
-    };
+    }
+
+    string print_science(Science s) {
+        switch(s) {
+            case Mathematics: return "Mathematics";
+            case Physics: return "Physics";
+            case Chemistry: return "Chemistry";
+            case Biology: return "Biology";
+            case Psychology: return "Psychology";
+            case Medecine: return "Medecine";
+            case Engineering: return "Engineering";
+        }
+    }
+
+    shared_ptr<Building> pop(vector<shared_ptr<Building>>& v) {
+        if(v.empty()) {
+            throw runtime_error("the vector is empty and so we can't pop front");
+        }
+        auto x = v.front();
+        v.erase(v.begin());
+        return x;
+    }
 
 }
 

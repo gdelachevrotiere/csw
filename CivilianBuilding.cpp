@@ -7,6 +7,6 @@ CivilianBuilding::CivilianBuilding(const Cost& cost, const int &victorypoints) {
 
 string CivilianBuilding::print() {
     stringstream sout;
-    sout << "CivilianBuilding[" << get_victory_points() << "] ~ " << cost.print() << endl;
+    sout << "CivilianBuilding[" << get_victory_points() << "]";
     return sout.str();
 };

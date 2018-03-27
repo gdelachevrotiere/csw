@@ -12,7 +12,7 @@ Impact MilitaryBuilding::get_build_impact() {
 
 string MilitaryBuilding::print() {
     stringstream sout;
-    sout << "MilitaryBuilding[" << strength << "] ~ " << cost.print() << endl;
+    sout << "MilitaryBuilding[" << strength << "]";
     return sout.str();
 }
 

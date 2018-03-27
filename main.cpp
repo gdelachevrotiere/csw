@@ -6,19 +6,17 @@
 #include "CommercialBuilding.h"
 #include "CivilianBuilding.h"
 
-int main() {
+int game() {
 
-    test_all();
-
-	const vector<shared_ptr<Wonder>> wonders {
+    const vector<shared_ptr<Wonder>> wonders {
         make_shared<Wonder>(*new Wonder(
                 "The Appian Way",
-                Cost({ {Stone,2}, {Wood,1} }),
+                Cost({ {Stone, 2}, {Wood, 1} }),
                 vector<Impact>({lambda::income_impact(4)})
         )),
         make_shared<Wonder>(*new Wonder(
                 "Circus Maximus",
-                Cost({ {Glass,1}, {Clay,1}, {Wood,1} }),
+                Cost({ {Glass, 1}, {Clay, 1}, {Wood, 1} }),
                 vector<Impact>({lambda::attack_impact(2)})
         )),
         make_shared<Wonder>(*new Wonder(
@@ -47,23 +45,30 @@ int main() {
         make_shared<CivilianBuilding>(*new CivilianBuilding(Cost(2, {{Wood, 1}}), 3)),
         make_shared<CivilianBuilding>(*new CivilianBuilding(Cost(1, {{Stone, 1}}), 1)),
 
-        make_shared<MilitaryBuilding>(*new MilitaryBuilding(Cost(RessourceMap{{Wood, 1}}), 1)),
-        make_shared<MilitaryBuilding>(*new MilitaryBuilding(Cost(RessourceMap{{Clay, 1}}), 1)),
+        make_shared<MilitaryBuilding>(*new MilitaryBuilding(Cost({{Wood, 1}}), 1)),
+        make_shared<MilitaryBuilding>(*new MilitaryBuilding(Cost({{Clay, 1}}), 1)),
         make_shared<MilitaryBuilding>(*new MilitaryBuilding(Cost(1), 1)),
         make_shared<MilitaryBuilding>(*new MilitaryBuilding(Cost(2), 2)),
-        make_shared<MilitaryBuilding>(*new MilitaryBuilding(Cost(RessourceMap{{Stone, 2}}), 3))
+        make_shared<MilitaryBuilding>(*new MilitaryBuilding(Cost({{Stone, 2}}), 3))
     };
 
-    vector<int> cityLevels {2, 3, 4, 5, 6};
-    shared_ptr<City> city(new City(buildings, cityLevels));
+    shared_ptr<City> city(new City(buildings));
 
-	shared_ptr<Player> playerA(new Player("Gabriel"));
+    shared_ptr<Player> playerA(new Player("Gabriel"));
     shared_ptr<Player> playerB(new Player("Catherine"));
 
     shared_ptr<ConflictZone> conflictZone(new ConflictZone(3, playerA, playerB));
 
     Game game(playerA, playerB, wonders, city, conflictZone);
     game.start();
+
+    return 0;
+}
+
+int main() {
+
+    test_all();
+    //game();
 
     return 0;
 }

@@ -11,6 +11,7 @@ public:
 	virtual ~ScientificBuilding() { };
 
 	Science get_science();
+    string print();
 };
 
 #endif

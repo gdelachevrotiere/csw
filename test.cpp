@@ -6,10 +6,20 @@
 #include "MilitaryBuilding.h"
 #include "CommercialBuilding.h"
 #include "City.h"
+#include "CityNode.h"
+
+int totalTest = 0;
+int successTest = 0;
 
 void run(const string &name, const function<void()>& lambda) {
     cout << "[UNIT] Starting " << name << "..." << endl;
-    lambda();
+    totalTest++;
+    try {
+        lambda();
+        successTest++;
+    } catch (const runtime_error& error) {
+        cout << "error is: " << error.what() << endl;
+    }
     cout << "[UNIT] ..." << name << " successful!" << endl;
 }
 
@@ -219,11 +229,9 @@ void cost_tweak_test() {
     assert(player.get_cost(Wood, opponent)==1);
     assert(player.get_cost(Clay, opponent)==1);
     assert(player.get_cost(Stone, opponent)==2);
-
 }
 
 void shared_production_test() {
-
     auto bad1 = make_shared<RawMaterial>(*new RawMaterial(Cost(10), Wood));
     auto bad2 = make_shared<RawMaterial>(*new RawMaterial(Cost(10), Wood));
 
@@ -240,11 +248,9 @@ void shared_production_test() {
     player.claim(bad2);
     player.build_wonder(wonder2);
     assert(player.get_production_alternatives().size() == 4);
-
 }
 
 void total_cost_test() {
-
     auto b1 = make_shared<RawMaterial>(*new RawMaterial(Cost(0), Wood));
     auto b2 = make_shared<RawMaterial>(*new RawMaterial(Cost(1), Wood));
     auto b3 = make_shared<RawMaterial>(*new RawMaterial(Cost(1), Clay));
@@ -269,22 +275,39 @@ void total_cost_test() {
     assert(commerce1->get_market()==vector<RessourceType>({Stone}));
     assert(playerA->get_total_cost(commerce2, playerB)==1);
     playerA->qbuild(commerce2);
-
 }
 
 void city_test() {
-
     vector<shared_ptr<Building>> buildings;
-    vector<int> v {0, 1, 2, 0, 2, 1, 1, 3, 1};
+    vector<int> v {0, 1, 2, 0, 2, 1, 1, 3, 1, 2};
     for(const auto& i: v) {
         buildings.push_back( make_shared<RawMaterial>(*new RawMaterial(Cost(i), Wood)) );
     };
 
-    vector<int> layers { 2, 3, 4 };
-
-    City city(buildings, layers);
-    assert(city.get_levels().size()==3);
-    assert(city.get_unordered_buildings().size()==9);
+    City city(buildings);
+    cout << city.print() << endl;
+    auto available = city.get_available_buildings();
+    assert(city.get_size()==10);
+    cout << city.print_available() << endl;
+    assert(available.size()==4);
+    assert(city.get_available_ids() == vector<int>({ 6, 7, 8, 9 }));
+    assert(city.get_unordered_nodes()[9]->is_childless());
+    city.pop(9);
+    assert(city.get_available_ids() == vector<int>({ 6, 7, 8 }));
+    city.pop(8);
+    assert(city.get_available_ids() == vector<int>({ 5, 6, 7}));
+    city.pop(6);
+    city.pop(7);
+    assert(city.get_available_ids() == vector<int>({ 3, 4, 5}));
+    city.pop(3);
+    city.pop(4);
+    city.pop(5);
+    assert(city.get_available_ids() == vector<int>({ 1, 2 }));
+    city.pop(1);
+    city.pop(2);
+    assert(city.get_available_ids() == vector<int>({ 0 }));
+    city.pop(0);
+    assert(city.get_size()==0);
 
 }
 
@@ -293,7 +316,10 @@ void dynamic_test() {
 }
 
 void test_all() {
-    run("dynamic_test", dynamic_test);
+    cout << "===================================" << endl;
+    cout << "Starting unit test...." << endl;
+    cout << "===================================" << endl;
+
     run("player_test", player_test);
     run("conflict_zone_test", conflict_zone_test);
     run("military_win_test", military_win_test);
@@ -304,4 +330,11 @@ void test_all() {
     run("shared_production_test", shared_production_test);
     run("total_cost_test", total_cost_test);
     run("city_test", city_test);
+
+    cout << "===================================" << endl;
+    cout << "Tests completed ! Success [" << successTest << "/" << totalTest << "]" << endl;
+    cout << "===================================" << endl;
+
+    if (successTest < totalTest)
+        throw runtime_error("some unit tests failed");
 }

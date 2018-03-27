@@ -8,7 +8,7 @@ public:
 	CivilianBuilding(const Cost&, const int& victorypoints);
 	virtual ~CivilianBuilding() { };
 
-	string print();
+    string print();
 };
 
 #endif

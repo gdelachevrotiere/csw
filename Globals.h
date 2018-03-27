@@ -12,6 +12,7 @@
 #include <functional>
 #include <optional>
 #include <cassert>
+#include <set>
 using namespace std;
 using namespace std::placeholders;
 
@@ -37,7 +38,8 @@ namespace lambda {
 
 namespace util {
 
-    string print_ressource(RessourceType r);
+    string print_ressource(RessourceType);
+    string print_science(Science);
 
     template<class T>
     vector<vector<T>> cartesian_product(const vector<vector<T>> &v) {
@@ -55,6 +57,9 @@ namespace util {
         }
         return s;
     }
+
+    shared_ptr<Building> pop(vector<shared_ptr<Building>>& v);
+
 }
 
 #endif

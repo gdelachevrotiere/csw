@@ -23,6 +23,7 @@ public:
     bool is_claimed();
     virtual Impact get_build_impact();
     virtual string print() = 0;
+    string pretty_print();
 };
 
 #endif

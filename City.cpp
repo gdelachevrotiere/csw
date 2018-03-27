@@ -1,53 +1,100 @@
 #include "City.h"
 
-City::City(const vector<shared_ptr<Building>>& buildings, const vector<int>& layers) {
-    auto iter = buildings.begin();
-    for( const auto& l: layers ) {
-        vector<shared_ptr<Building>> thisLevel;
-        for ( int i=0; i<l; i++ ) {
-            thisLevel.push_back(*iter);
-            iter++;
-        }
-        levels.push_back(thisLevel);
+City::City(const vector<shared_ptr<Building>>& buildings) {
+    if (buildings.size() != _size)
+        throw runtime_error("buildings vector size has to be exactly 10");
+
+    for (int i=0; i<_size; i++) {
+        auto n = make_shared<optional<CityNode>>(*new CityNode(i, buildings[i]));
+        nodes.push_back(n);
+    }
+
+    for (auto e: _edges1) {
+        (*nodes[e[0]])->set_left(nodes[e[1]]);
+        (*nodes[e[0]])->set_right(nodes[e[2]]);
     }
 }
 
-shared_ptr<Building> City::pop(int i) {
-    auto b = get_unordered_buildings();
-    auto popped = b.at(i);
-    b.erase(b.begin() + i);
-    return popped;
+shared_ptr<Building> City::pop(const int& i) {
+    if (!nodes[i])
+        throw runtime_error("the node has already been popped");
+    if (!(*nodes[i])->is_childless())
+        throw runtime_error("the node still has children and can't be popped");
+
+    auto building = (*nodes[i])->get_building();
+    *nodes[i] = optional<CityNode>(nullopt);
+    return building;
 }
 
-vector<vector<shared_ptr<Building>>> City::get_levels() {
-    return levels;
+vector<shared_ptr<CityNode>> City::get_unordered_nodes() {
+    vector<shared_ptr<CityNode>> alive;
+    for (auto n: nodes) {
+        if (*n) {
+            alive.push_back(make_shared<CityNode>(**n));
+        }
+    }
+    return alive;
 }
 
 vector<shared_ptr<Building>> City::get_unordered_buildings() {
     vector<shared_ptr<Building>> buildings;
-    for (const auto& l: levels) {
-        for (const auto& b: l) {
-            buildings.push_back(b);
-        }
+    for( auto n: get_unordered_nodes()) {
+        buildings.push_back(n->get_building());
     }
     return buildings;
 }
 
+vector<shared_ptr<CityNode>> City::get_available_nodes() {
+    vector<shared_ptr<CityNode>> available;
+    for( auto n: get_unordered_nodes()) {
+        if (n->is_childless()) {
+            available.push_back(n);
+        }
+    }
+    return available;
+}
+
+vector<int> City::get_available_ids() {
+    vector<int> available;
+    for( auto n: get_available_nodes()) {
+        available.push_back(n->get_id());
+    }
+    return available;
+}
+
 vector<shared_ptr<Building>> City::get_available_buildings() {
-    return get_unordered_buildings();
+    vector<shared_ptr<Building>> available;
+    for( auto n: get_available_nodes()) {
+        available.push_back(n->get_building());
+    }
+    return available;
 }
 
 string City::print() {
-    auto buildings = get_available_buildings();
+    stringstream sout;
+    sout << "The following nodes are in the city: " << endl;
+    sout << "-------------------------------------------" << endl;
+    for (auto n : get_unordered_nodes()) {
+        auto left = *n->get_left();
+        auto leftIdx = left ? to_string(left->get_id()) : "*";
+        auto right = *n->get_right();
+        auto rightIdx = right ? to_string(right->get_id()) : "*";
+        auto available = "[" + leftIdx + "," + rightIdx + "]";
+        sout << n->get_id() << ") " << available << " " << n->get_building()->pretty_print() << endl;
+    }
+    return sout.str();
+}
+
+string City::print_available() {
     stringstream sout;
     sout << "The following buildings are available: " << endl;
     sout << "-------------------------------------------" << endl;
-    for (int i=0; i<buildings.size(); i++) {
-        sout << i << ") " << buildings[i]->print();
+    for (auto n : get_available_nodes()) {
+        sout << n->get_id() << ") " << n->get_building()->pretty_print() << endl;
     }
     return sout.str();
 }
 
 long City::get_size() {
-    return get_available_buildings().size();
+    return get_unordered_nodes().size();
 }

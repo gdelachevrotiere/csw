@@ -39,3 +39,9 @@ int Buildable::get_victory_points() {
 Impact Buildable::get_build_impact() {
     return [](Player* p){};
 };
+
+string Buildable::pretty_print() {
+    stringstream sout;
+    sout << print() << ": " << cost.print() << " -> victory[" << victoryPoints << "]";
+    return sout.str();
+}

@@ -21,7 +21,7 @@ function<void(Player*)> make_grant_gold(int n);
 function<void(Player*)> make_attack(int n);
 
 class Player {
-	string name;
+    string name;
     int gold;
     shared_ptr<Building> active;
     ConflictZone* zone;

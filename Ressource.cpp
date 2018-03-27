@@ -1,7 +1,5 @@
 #include "Ressource.h"
 
-Ressource::Ressource() {};
-
 Ressource::Ressource(const Cost &cost, const RessourceType &ressource, const int &quantity) {
     this->cost = cost;
     this->ressource = ressource;
@@ -15,7 +13,6 @@ int Ressource::get_production(RessourceType ressource) {
 string Ressource::print() {
     stringstream sout;
     sout << "Ressource[";
-    sout << "(" << util::print_ressource(ressource) << "," << quantity << ")";
-    sout << "] ~ " << cost.print() << endl;
+    sout << util::print_ressource(ressource) << "," << quantity << "]";
     return sout.str();
 }

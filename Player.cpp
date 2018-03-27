@@ -287,6 +287,9 @@ void Player::build_wonder(shared_ptr<Wonder> wonder) {
 }
 
 void Player::sell(shared_ptr<Graveyard> graveyard) {
+    if (active==nullptr) {
+        throw runtime_error("there is no active building, choose a building first");
+    }
     int income = 2 + static_cast<int>(get_commerces().size());
     earn(income);
     graveyard->push_back(active);

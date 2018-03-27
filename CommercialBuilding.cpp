@@ -23,6 +23,10 @@ Impact CommercialBuilding::get_build_impact() {
 
 string CommercialBuilding::print() {
     stringstream sout;
-    sout << "CommercialBuilding[" << "] ~ " << cost.print() << endl;
+    sout << "CommercialBuilding[" << income;
+    for(auto m: market) {
+        sout << "," << util::print_ressource(m);
+    }
+    sout << "]";
     return sout.str();
 };

@@ -51,14 +51,16 @@ void Game::do_round() {
     cin >> claim;
     cout << endl;
 
-    auto claimed = city->pop(stoi(claim));
-    playing->claim(claimed);
+    //auto claimed = city->pop(stoi(claim));
+    //playing->claim(claimed);
 
     cout << "The building [" << claim << "] was claimed." << endl;
-    cout << "Choose an action: " << endl;
+    cout << endl;
     cout << "1) Build" << endl;
     cout << "2) Sell" << endl;
     cout << "3) Build Wonder" << endl;
+    cout << endl;
+    cout << "Choose an action[1-3]: " << endl;
 
     string action;
     cin >> action;
@@ -67,10 +69,14 @@ void Game::do_round() {
     switch (stoi(action)) {
         case 1:
             playing->build();
+            break;
         case 2:
             playing->sell(graveyard);
+            break;
         case 3:
             throw runtime_error("not yet implemented");
+        default:
+            throw runtime_error("option invalid");
     };
 
     auto winner = get_winner();
@@ -89,6 +95,5 @@ void Game::start() {
     cout << "Welcome to 7 Wonders Duel C++ version" << endl << endl;
     while(!gameCompleted) {
         do_round();
-        cin >> dummy;
     }
-};
+}

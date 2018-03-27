@@ -29,7 +29,7 @@ string Cost::print() {
     stringstream sout;
     sout << "Cost[" << "(Gold," << gold << ")";
     for (auto b: ressources) {
-        sout << "(" << util::print_ressource(b.first) << ", " << b.second << ")";
+        sout << ",(" << util::print_ressource(b.first) << "," << b.second << ")";
     }
     sout << "]";
     return sout.str();
