@@ -1,11 +1,14 @@
 #include "City.h"
 
 City::City(const vector<shared_ptr<Building>>& buildings) {
-    if (buildings.size() != _size)
-        throw runtime_error("buildings vector size has to be exactly 10");
+    if (buildings.size() < _size)
+        throw runtime_error("buildings vector size has to be at least 10");
+
+    auto shuffled = buildings;
+    random_shuffle(shuffled.begin(), shuffled.end());
 
     for (int i=0; i<_size; i++) {
-        auto n = make_shared<optional<CityNode>>(*new CityNode(i, buildings[i]));
+        auto n = make_shared<optional<CityNode>>(*new CityNode(i, shuffled[i]));
         nodes.push_back(n);
     }
 
@@ -72,7 +75,7 @@ vector<shared_ptr<Building>> City::get_available_buildings() {
 
 string City::print() {
     stringstream sout;
-    sout << "The following nodes are in the city: " << endl;
+    sout << "[CITY]" << endl;
     sout << "-------------------------------------------" << endl;
     for (auto n : get_unordered_nodes()) {
         auto left = *n->get_left();
@@ -82,6 +85,7 @@ string City::print() {
         auto available = "[" + leftIdx + "," + rightIdx + "]";
         sout << n->get_id() << ") " << available << " " << n->get_building()->pretty_print() << endl;
     }
+    sout << "-------------------------------------------" << endl;
     return sout.str();
 }
 

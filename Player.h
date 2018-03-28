@@ -36,14 +36,15 @@ class Player {
     vector<shared_ptr<ScientificBuilding>> scientifics;
 public:
 	Player(const string&, const int&);
-    Player(): Player("john", 0) { };
-	explicit Player(const string& n) : Player(n, 7) {};
+    Player(): Player("john", 0) { }
+    explicit Player(const string& n) : Player(n, 7) { }
 	virtual ~Player();
 
     // Members
     string get_name();
     vector<shared_ptr<Building>> get_buildings();
     vector<shared_ptr<Wonder>> get_wonders();
+    shared_ptr<Building> get_active();
 	string print();
 
     vector<shared_ptr<CivilianBuilding>> get_civilians();
@@ -53,6 +54,8 @@ public:
     vector<shared_ptr<RawMaterial>> get_materials();
     vector<shared_ptr<ScientificBuilding>> get_scientifics();
     vector<shared_ptr<Ressource>> get_ressources();
+
+    int get_victory_points();
 
     void set_conflict_zone(ConflictZone*);
     void attack(int n);

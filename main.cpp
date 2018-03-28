@@ -52,14 +52,10 @@ int game() {
         make_shared<MilitaryBuilding>(*new MilitaryBuilding(Cost({{Stone, 2}}), 3))
     };
 
-    shared_ptr<City> city(new City(buildings));
+    auto playerA = make_shared<Player>(*new Player("Gabriel"));
+    auto playerB = make_shared<Player>(*new Player("Catherine"));
 
-    shared_ptr<Player> playerA(new Player("Gabriel"));
-    shared_ptr<Player> playerB(new Player("Catherine"));
-
-    shared_ptr<ConflictZone> conflictZone(new ConflictZone(3, playerA, playerB));
-
-    Game game(playerA, playerB, wonders, city, conflictZone);
+    Game game(playerA, playerB, wonders, buildings);
     game.start();
 
     return 0;
@@ -68,7 +64,7 @@ int game() {
 int main() {
 
     test_all();
-    //game();
+    game();
 
     return 0;
 }

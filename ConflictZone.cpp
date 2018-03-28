@@ -54,3 +54,19 @@ string ConflictZone::print() {
     return sout.str();
 }
 
+string ConflictZone::pretty_print() {
+    stringstream sout;
+    int length = 1 + 2 * halfSize;
+    sout << "[CONFLICT ZONE]" << endl;
+    sout << "-------------------";
+    for (int i=0; i<length; i++) { sout << "-----"; }
+    sout << endl;
+    sout << "<" << playerB->get_name() << "> | ";
+    for (int i=0; i<length; i++) {
+        sout << ((halfSize + get_pawn_position()) == i ? " X |" : "   |");
+    }
+    sout << " <" << playerA->get_name() << ">" << endl;
+    sout << "-------------------";
+    for (int i=0; i<length; i++) { sout << "-----"; }
+    return sout.str();
+}

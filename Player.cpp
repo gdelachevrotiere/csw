@@ -33,30 +33,19 @@ Player Player::copy() {
     return c;
 }
 
+shared_ptr<Building> Player::get_active() {
+    if (!active) {
+        throw runtime_error("no active building");
+    }
+    return active;
+}
 
-vector<shared_ptr<CivilianBuilding>> Player::get_civilians() {
-    return civilians;
-};
-
-vector<shared_ptr<CommercialBuilding>> Player::get_commerces() {
-    return commerces;
-};
-
-vector<shared_ptr<ManufacturedGood>> Player::get_manufactures() {
-    return manufactures;
-};
-
-vector<shared_ptr<MilitaryBuilding>> Player::get_militaries() {
-    return militaries;
-};
-
-vector<shared_ptr<RawMaterial>> Player::get_materials() {
-    return materials;
-};
-
-vector<shared_ptr<ScientificBuilding>> Player::get_scientifics() {
-    return scientifics;
-};
+vector<shared_ptr<CivilianBuilding>> Player::get_civilians() { return civilians; }
+vector<shared_ptr<CommercialBuilding>> Player::get_commerces() { return commerces; }
+vector<shared_ptr<ManufacturedGood>> Player::get_manufactures() { return manufactures; }
+vector<shared_ptr<MilitaryBuilding>> Player::get_militaries() { return militaries; }
+vector<shared_ptr<RawMaterial>> Player::get_materials() { return materials; }
+vector<shared_ptr<ScientificBuilding>> Player::get_scientifics() { return scientifics; }
 
 vector<shared_ptr<Ressource>> Player::get_ressources() {
     vector<shared_ptr<Ressource>> ressources;
@@ -67,7 +56,7 @@ vector<shared_ptr<Ressource>> Player::get_ressources() {
         ressources.push_back(m);
     }
     return ressources;
-};
+}
 
 vector<shared_ptr<Building>> Player::get_buildings() {
     vector<shared_ptr<Building>> bs;
@@ -217,7 +206,11 @@ bool Player::enough_wealth(shared_ptr<Buildable> buildable) {
 }
 
 bool Player::is_active(shared_ptr<Building> building) {
-    return active==building;
+    if (active) {
+        return active==building;
+    } else {
+        return false;
+    }
 }
 
 bool Player::is_owner(shared_ptr<Buildable> buildable) {
@@ -253,7 +246,7 @@ void Player::register_built(shared_ptr<Building> b) {
 }
 
 bool Player::can_build(shared_ptr<Buildable> buildable) {
-    if (active==nullptr) {
+    if (!active) {
         throw runtime_error("there is no active building, choose a building first");
     } else if (!enough_wealth(buildable)) {
         throw runtime_error("the player's wealth is insufficient to build this building");
@@ -287,7 +280,7 @@ void Player::build_wonder(shared_ptr<Wonder> wonder) {
 }
 
 void Player::sell(shared_ptr<Graveyard> graveyard) {
-    if (active==nullptr) {
+    if (!active) {
         throw runtime_error("there is no active building, choose a building first");
     }
     int income = 2 + static_cast<int>(get_commerces().size());
@@ -326,6 +319,7 @@ string Player::get_name() {
 string Player::print() {
     stringstream sout;
 	sout << "Player[" << name << "](";
+    sout << "vp=" << get_victory_points() << ",";
     sout << "gold=" << get_gold() << ",";
     sout << "wood=" << get_production(Wood) << ",";
     sout << "clay=" << get_production(Clay) << ",";
@@ -346,10 +340,20 @@ bool Player::can_spend(int n) {
 }
 
 void Player::spend(int n) {
-    if(!can_spend(n)) {
-        throw "gold is insufficient to spend that amount";
-    }
+    if(!can_spend(n))
+        throw runtime_error("gold is insufficient to spend that amount");
     gold -= n;
+}
+
+int Player::get_victory_points() {
+    int vps = 0;
+    for (auto b: get_buildings()) {
+        vps += b->get_victory_points();
+    }
+    for (auto w: get_wonders()) {
+        vps += w->get_victory_points();
+    }
+    return vps;
 }
 
 Player::~Player() {}

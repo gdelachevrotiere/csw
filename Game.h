@@ -7,6 +7,7 @@
 #include "City.h"
 
 class Game {
+    bool gameCompleted;
 	shared_ptr<Player> playerA, playerB;
     shared_ptr<ConflictZone> conflictZone;
 	vector<shared_ptr<Wonder>> wonders;
@@ -15,14 +16,14 @@ class Game {
     shared_ptr<Graveyard> graveyard;
 public:
 	Game(
-        shared_ptr<Player>,
-        shared_ptr<Player>,
-        vector<shared_ptr<Wonder>>,
-        shared_ptr<City>,
-        shared_ptr<ConflictZone>
+        const shared_ptr<Player>&,
+        const shared_ptr<Player>&,
+        const vector<shared_ptr<Wonder>>&,
+        const vector<shared_ptr<Building>>&
     );
-	virtual ~Game() { };
+    virtual ~Game() { }
 
+    bool is_completed();
 	string print_players();
     shared_ptr<Player> get_playing();
 	void set_next_turn();
